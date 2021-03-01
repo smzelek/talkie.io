@@ -1,18 +1,18 @@
 import {
-    model,
+    model as _model,
     Schema,
     Document
 } from "mongoose";
-import { ChatroomDocument } from "./chatroom.schema";
-import { UserDocument } from "./user.schema";
+import { document as chatroomDocument } from "./chatroom.schema";
+import { document as userDocument } from "./user.schema";
 
-export interface IMessage {
+export interface schema {
     content: string;
-    user_sentby: UserDocument['_id'];
-    chatroom_sentto: ChatroomDocument['_id'];
+    user_sentby: userDocument['_id'];
+    chatroom_sentto: chatroomDocument['_id'];
 };
 
-export interface MessageDocument extends IMessage, Document { }
+export interface document extends schema, Document { }
 
 const messageSchema = new Schema({
     content: {
@@ -34,6 +34,5 @@ const messageSchema = new Schema({
     },
 });
 
-export const Message = model<MessageDocument>("Message", messageSchema);
-export const messageFactory = (model: IMessage) => new Message(model);
+export const model = _model<document>("Message", messageSchema);
 

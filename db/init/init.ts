@@ -1,8 +1,8 @@
 import { connect } from "mongoose";
-import { IChatroom, IMessage, IUser, User, Chatroom, Message } from '../schemas';
+import * as db from '../index';
 import { internet, name, company, random, lorem } from 'faker';
 
-const default_users: IUser[] = Array.from({ length: 10 }, () => {
+const default_users: db.user.schema[] = Array.from({ length: 10 }, () => {
     const firstname = name.firstName();
     const lastname = name.lastName();
     return {
@@ -11,7 +11,7 @@ const default_users: IUser[] = Array.from({ length: 10 }, () => {
     };
 });
 
-const default_chatrooms: IChatroom[] = Array.from({ length: 3 }, () => {
+const default_chatrooms: db.chatroom.schema[] = Array.from({ length: 3 }, () => {
     const name = `${company.bsAdjective()} ${company.bsNoun()}`
         .split(' ')
         .map(w => `${w[0].toUpperCase()}${w.substr(1)}`)
@@ -23,7 +23,7 @@ const default_chatrooms: IChatroom[] = Array.from({ length: 3 }, () => {
     };
 });
 
-const default_messages: IMessage[] = Array.from({ length: 180 }, () => {
+const default_messages: db.message.schema[] = Array.from({ length: 180 }, () => {
     const content = lorem.sentences(random.number({ min: 0, max: 5 }))
         || lorem.words(1);
 
@@ -37,19 +37,19 @@ const default_messages: IMessage[] = Array.from({ length: 180 }, () => {
 const initializeDb = async function () {
     await connect("mongodb://mongodb:27017/talkieio", { useNewUrlParser: true, useUnifiedTopology: true });
 
-    await User.collection.insertMany(default_users);
-    const users = await User.find({});
+    await db.user.model.collection.insertMany(default_users);
+    const users = await db.user.model.find({});
 
-    await Chatroom.collection.insertMany(
-        default_chatrooms.map((c): IChatroom => ({
+    await db.chatroom.model.collection.insertMany(
+        default_chatrooms.map((c): db.chatroom.schema => ({
             ...c,
             user_createdby: random.arrayElement(users).id
         }))
     );
-    const chatrooms = await Chatroom.find({});
+    const chatrooms = await db.chatroom.model.find({});
 
-    await Message.collection.insertMany(
-        default_messages.map((m): IMessage => ({
+    await db.message.model.collection.insertMany(
+        default_messages.map((m): db.message.schema => ({
             ...m,
             user_sentby: random.arrayElement(users).id,
             chatroom_sentto: random.arrayElement(chatrooms).id

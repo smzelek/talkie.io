@@ -1,16 +1,16 @@
 import {
-    model,
+    model as _model,
     Schema,
     Document
 } from "mongoose";
-import { UserDocument } from "./user.schema";
+import { document as userDocument } from "./user.schema";
 
-export interface IChatroom {
+export interface schema {
     name: string;
-    user_createdby: UserDocument['_id'];
+    user_createdby: document['_id'];
 };
 
-export interface ChatroomDocument extends IChatroom, Document { }
+export interface document extends schema, Document { }
 
 const chatroomSchema = new Schema({
     name: {
@@ -27,5 +27,4 @@ const chatroomSchema = new Schema({
     },
 });
 
-export const Chatroom = model<ChatroomDocument>("Chatroom", chatroomSchema);
-export const chatroomFactory = (model: IChatroom) => new Chatroom(model);
+export const model = _model<document>("Chatroom", chatroomSchema);

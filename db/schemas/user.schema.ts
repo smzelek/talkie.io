@@ -1,15 +1,15 @@
 import {
-    model,
+    model as _model,
     Schema,
     Document
 } from "mongoose";
 
-export interface IUser {
+export interface schema {
     username: string;
     name: string;
 };
 
-export interface UserDocument extends IUser, Document { }
+export interface document extends schema, Document { }
 
 const userSchema = new Schema({
     username: {
@@ -29,5 +29,4 @@ const userSchema = new Schema({
     },
 });
 
-export const User = model<UserDocument>("User", userSchema);
-export const userFactory = (model: IUser) => new User(model);
+export const model = _model<document>("User", userSchema);

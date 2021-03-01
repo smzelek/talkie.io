@@ -13,6 +13,7 @@
     "dependencies": {
         "cors": "^2.8.5",
         "express": "^4.17.1",
+        "inversify-express-utils": "^6.3.2",
         "mongoose": "5.11.15",
         "preact": "^10.4.5"
     },
@@ -32,8 +33,10 @@
         "fibers": "^5.0.0",
         "file-loader": "^6.0.0",
         "html-webpack-plugin": "4.0.0",
+        "inversify": "^5.0.5",
+        "reflect-metadata": "^0.1.13",
         "resize-observer-polyfill": "^1.5.1",
-        "rxjs": "^6.5.5",
+        "rxjs": "^6.6.6",
         "sass": "^1.32.8",
         "sass-loader": "8.0.2",
         "style-loader": "0.23.1",

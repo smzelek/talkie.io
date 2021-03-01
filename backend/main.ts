@@ -1,29 +1,22 @@
-import express from 'express';
-import { Service } from './service';
+import 'reflect-metadata';
 import cors from 'cors';
-import { connectDb } from '../db/connection';
+import './controllers/user.controller';
+import { Container } from "inversify";
+import { TOKENS } from "./tokens";
+import { IDbService, DbService } from "./services/db.service";
+import { InversifyExpressServer } from 'inversify-express-utils';
+
+const IOC = new Container();
+IOC.bind<IDbService>(TOKENS.DbService).to(DbService).inSingletonScope();
 
 const PORT = Number(process.env.PORT) || 8000;
 
-const app = express();
-app.use(cors());
-
-const service = new Service();
-
-app.get('/user', (req, res) => {
-    return res.json({
-        hello: 'world!'
-    });
+const server = new InversifyExpressServer(IOC);
+server.setConfig((app) => {
+    app.use(cors());
 });
 
-app.get('/test-db', async (req, res) => {
-    await connectDb();
-    console.log('got db')
-
-    return res.json({});
-})
-
+const app = server.build();
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`⚡️[server]: Server is running at http://0.0.0.0:${PORT}`);
 });
-

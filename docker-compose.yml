@@ -19,17 +19,17 @@ services:
       - ./:/usr/src/app
       - node_modules:/usr/src/app/node_modules/
 
-  # server:
-  #   volumes:
-  #     - ./:/usr/src/app
-  #     - node_modules:/usr/src/app/node_modules/:ro
-  #   build:
-  #     context: .
-  #     dockerfile: backend/Dockerfile
-  #   depends_on:
-  #     - dependencies
-  #   ports:
-  #     - '8000:8000'
+  server:
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules/:ro
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    depends_on:
+      - dependencies
+    ports:
+      - '8000:8000'
 
   # webapp:
   #   volumes:
