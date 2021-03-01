@@ -3,10 +3,10 @@ export class APIError extends Error {
         super();
     }
 
-    toResponse() {
+    static toResponse(err: APIError) {
         return {
-            code: this.code,
-            message: this.message
+            code: err.code,
+            message: err.message
         };
     }
 }

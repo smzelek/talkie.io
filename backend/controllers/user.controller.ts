@@ -5,7 +5,6 @@ import { TOKENS } from "../tokens";
 import { DbService } from "../services/db.service";
 import * as db from '../../db';
 import { APIError, ERROR_KEYS } from "../error";
-// import { APIError, handleErrors } from "../error";
 
 @controller("")
 export class UserController implements interfaces.Controller {
@@ -22,7 +21,9 @@ export class UserController implements interfaces.Controller {
     private async createUser(req: express.Request<{}, {}, db.user.Schema>, res: express.Response): Promise<db.user.Document | undefined> {
         const users = await this.dbService.Users();
         try {
-            return await users.create<db.user.Schema>(req.body);
+            const newUser = await users.create<db.user.Schema>(req.body);
+            res.status(201);
+            return newUser;
         } catch (err) {
             if (err.name === ERROR_KEYS.MongoError && err.code === 11000) {
                 throw new APIError(400, 'Username is already in use.')
