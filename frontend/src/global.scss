@@ -1,0 +1,39 @@
+@import './mixins';
+
+.layout {
+    background: #e8e6e5;
+    display: flex;
+    @include smaller-than(mobile-screen) {
+        // flex-direction: column;
+        // overflow-y: auto;
+    }
+    @include larger-than(mobile-screen) {
+        // height: 100%;
+    }
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Cairo", sans-serif; //todo
+    height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+    font-weight: normal;
+}
+
+h3 {
+    font-family: "Cairo", sans-serif;
+    font-size: 30px;
+    line-height: 40px;
+}
+
+p {
+    margin: 0;
+}
