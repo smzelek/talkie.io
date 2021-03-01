@@ -8,7 +8,8 @@ module.exports = {
     entry: './frontend/src/app.tsx',
     output: {
         path: path.resolve('dist'),
-        filename: 'main.js'
+        filename: 'main.js',
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js'],

@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose'
 import * as user from "./user.schema";
 
-export interface _Schema {
+interface _Schema {
     name: string;
     user_createdby: user.Document['_id'];
 };

@@ -3,6 +3,7 @@ import { APIError } from '../../../../../backend/error';
 import { Dispatch } from 'redux';
 import { RootSchema } from '../../schemas';
 import { APIService } from '../../../services/api.service';
+import { push } from 'react-router-redux';
 
 export const CHECK_LOGIN = '[Login] Check Login'
 export const CHECK_LOGIN_SUCCESS = '[Login] Check Login Success';
@@ -52,10 +53,18 @@ export const checkLogin$ = () => {
     return async (dispatch: Dispatch, state: RootSchema) => {
         dispatch(checkLogin());
 
+        console.log('checkinglogin??')
+
         return APIService.checkLogin()
             .then(
-                (res) => dispatch(checkLoginSuccess(res)),
-                (err) => dispatch(checkLoginFail(err))
+                (res) => {
+                    dispatch(checkLoginSuccess(res))
+                    dispatch(push('/chat'));
+                },
+                (err) => {
+                    dispatch(checkLoginFail(err))
+                    dispatch(push('/login'));
+                }
             );
     };
 };
@@ -86,8 +95,13 @@ export const login$ = (username: db.user.Schema['username']) => {
 
         return APIService.login(username)
             .then(
-                (res) => dispatch(loginSuccess(res)),
-                (err) => dispatch(loginFail(err))
+                (res) => {
+                    dispatch(loginSuccess(res));
+                    dispatch(push('/chat'));
+                },
+                (err) => {
+                    dispatch(loginFail(err))
+                }
             );
     };
 };

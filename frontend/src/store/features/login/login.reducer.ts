@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 import { AsyncActionState } from "../../utils/async-action-state";
 import { CHECK_LOGIN, CHECK_LOGIN_FAIL, CHECK_LOGIN_SUCCESS, LOGIN, LoginActions, LOGIN_FAIL, LOGIN_SUCCESS } from "./login.action";
 
-export const loginReducer: Reducer<LoginSchema> = (state: LoginSchema = initialLoginState, action: LoginActions) => {
+export const loginReducer: Reducer<LoginSchema> = (state: LoginSchema = initialLoginState, action: LoginActions): LoginSchema => {
     switch (action.type) {
         case CHECK_LOGIN: {
             return {

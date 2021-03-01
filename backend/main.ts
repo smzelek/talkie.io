@@ -7,19 +7,23 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import bodyParser from 'body-parser';
 import { APIError, toApiError } from './error';
 import express from 'express';
-import { DbService, IDbService, ILoginService, IUserService, LoginService, UserService } from './services';
+import { ChatroomService, DbService, IChatroomService, IDbService, ILoginService, IUserService, LoginService, UserService } from './services';
 import cookies from 'cookie-parser';
 
 const IOC = new Container();
 IOC.bind<IDbService>(TOKENS.DbService).to(DbService).inSingletonScope();
 IOC.bind<IUserService>(TOKENS.UserService).to(UserService);
 IOC.bind<ILoginService>(TOKENS.LoginService).to(LoginService);
+IOC.bind<IChatroomService>(TOKENS.ChatroomService).to(ChatroomService);
 
 const PORT = Number(process.env.PORT) || 8000;
 
 const server = new InversifyExpressServer(IOC);
 server.setConfig((app) => {
-    app.use(cors());
+    app.use(cors({
+        origin: "http://localhost:8080",
+        credentials: true,
+    }));
     app.use(bodyParser.urlencoded({
         extended: true
     }));

@@ -23,6 +23,7 @@ export class LoginService implements ILoginService {
 
     async currentUser(req: express.Request, res: express.Response): Promise<db.user.Schema | undefined> {
         const userCookie = req.cookies[LoginService.COOKIE_NAME];
+        console.log(userCookie);
         if (!userCookie) {
             throw new APIError(401, 'User is not logged in.')
         }
