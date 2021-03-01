@@ -78,6 +78,7 @@ export class ChatroomService implements IChatroomService {
         return allChatroomsWithLatestMessage.map((c): ChatroomWithInfo => ({
             _id: c._id,
             name: c.name,
+            user_createdby: c.user_createdby,
             mostRecentMessage: c.latest_message ? {
                 _id: c.latest_message._id,
                 content: c.latest_message.content,

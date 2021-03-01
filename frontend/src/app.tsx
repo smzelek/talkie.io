@@ -9,6 +9,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import './global.scss';
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
+import SignUpPage from './pages/sign-up';
+
 TimeAgo.addDefaultLocale(en)
 
 class App extends React.Component<{}, {}> {
@@ -24,6 +26,9 @@ class App extends React.Component<{}, {}> {
                     <Switch>
                         <Route path="/login" render={() => (
                             <LoginPage />
+                        )} />
+                         <Route path="/sign-up" render={() => (
+                            <SignUpPage />
                         )} />
                         <Route path="/chat" component={ChatPage} />
                         <Route exact path="/" render={() => (

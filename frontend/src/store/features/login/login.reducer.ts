@@ -1,7 +1,7 @@
 import { initialLoginState, LoginSchema } from "./login.schema"
 import { Reducer } from 'redux';
 import { AsyncActionState } from "../../utils/async-action-state";
-import { CHECK_LOGIN, CHECK_LOGIN_FAIL, CHECK_LOGIN_SUCCESS, LOGIN, LoginActions, LOGIN_FAIL, LOGIN_SUCCESS } from "./login.action";
+import { CHECK_LOGIN, CHECK_LOGIN_FAIL, CHECK_LOGIN_SUCCESS, LOGIN, LoginActions, LOGIN_FAIL, LOGIN_SUCCESS, SIGN_UP, SIGN_UP_FAIL, SIGN_UP_SUCCESS } from "./login.action";
 
 export const loginReducer: Reducer<LoginSchema> = (state: LoginSchema = initialLoginState, action: LoginActions): LoginSchema => {
     switch (action.type) {
@@ -24,6 +24,25 @@ export const loginReducer: Reducer<LoginSchema> = (state: LoginSchema = initialL
                 currentUser: undefined,
                 checkingLogin: AsyncActionState.errorState(action.error)
             }
+        }
+        case SIGN_UP: {
+            return {
+                ...state,
+                creatingUser: AsyncActionState.inProgressState
+            };
+        }
+        case SIGN_UP_SUCCESS: {
+            return {
+                ...state,
+                creatingUser: AsyncActionState.successState,
+                currentUser: action.currentUser
+            };
+        }
+        case SIGN_UP_FAIL: {
+            return {
+                ...state,
+                creatingUser: AsyncActionState.errorState(action.error)
+            };
         }
         case LOGIN: {
             return {

@@ -1,6 +1,6 @@
 @import "../mixins";
 
-.login {
+.sign-up {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -43,6 +43,7 @@
         label {
             font-size: 13px;
             font-weight: bold;
+            margin-top: 10px;
         }
 
         input {

@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { LoginSchema, RootSchema } from "../../schemas";
+import { RootSchema } from "../../schemas";
 
 const loginState = (state: RootSchema) => state.login;
 

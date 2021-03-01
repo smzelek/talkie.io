@@ -20,6 +20,17 @@ export class APIService {
         return await res.json();
     }
 
+    static async signUp(username: db.user.Schema['username'], name: db.user.Schema['name']): Promise<db.user.Schema> {
+        const res = await fetch('http://localhost:8000/users', {
+            method: 'POST',
+            headers: new Headers({ 'content-type': 'application/json' }),
+            credentials: 'include',
+            body: JSON.stringify({ username, name }),
+        });
+        if (!res.ok) { throw await res.json(); }
+        return await res.json();
+    }
+
     static async logout() {
         const res = await fetch('http://localhost:8000/login', {
             method: 'DELETE',

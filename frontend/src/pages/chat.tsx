@@ -1,20 +1,19 @@
-import './login.scss';
-import { RootSchema } from '../store/schemas';
-import { connect } from 'react-redux';
-import React from "react";
-import actions from '../store/actions';
-import { ThunkDispatch } from 'redux-thunk';
-import * as db from '../../../db';
-import selectors from '../store/selectors';
-import { NavLink, Route, RouteComponentProps, Switch } from 'react-router-dom';
-import Chatroom from '../components/chatroom/chatroom';
-import { ChatroomWithInfo } from '../../../core';
-import { push } from 'connected-react-router';
 import './chat.scss';
 import { ChatroomCard } from '../components/chatroom-card/chatroom-card';
-import stc from 'string-to-color';
+import { ChatroomWithInfo } from '../../../core';
+import { connect } from 'react-redux';
 import { idToTimeStamp } from '../store/utils/id-to-timestamp';
-import { NewChatroom } from '../components/new-room/new-room';
+import { Link, NavLink, Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { push } from 'connected-react-router';
+import { RootSchema } from '../store/schemas';
+import { ThunkDispatch } from 'redux-thunk';
+import * as db from '../../../db';
+import actions from '../store/actions';
+import Chatroom from '../components/chatroom/chatroom';
+import NewChatroom from '../components/new-chatroom/new-chatroom';
+import React from "react";
+import selectors from '../store/selectors';
+import stc from 'string-to-color';
 
 interface ChatProps {
     currentUser?: db.user.Schema;
@@ -45,6 +44,16 @@ class ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComp
         this.props.dispatch(actions.login.logout$());
     }
 
+    sortChatrooms(c1: ChatroomWithInfo, c2: ChatroomWithInfo) {
+        if (!c1.mostRecentMessage && c1.user_createdby === this.props.currentUser?._id) {
+            return -1;
+        } 
+        if (!c2.mostRecentMessage && c2.user_createdby === this.props.currentUser?._id) {
+            return 1;
+        } 
+        return idToTimeStamp(c2.mostRecentMessage?._id) - idToTimeStamp(c1.mostRecentMessage?._id);
+    }
+
     render() {
         return (
             <div id="container">
@@ -62,8 +71,11 @@ class ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComp
                             </div>
                         </section>
                         <ul className="sidebar__list">
+                            <div className="new-room-option">
+                                <Link to={`${this.props.match.path}/new`}>create new room</Link>
+                            </div>
                             {this.props.chatrooms
-                                ?.sort((c1, c2) => idToTimeStamp(c2.mostRecentMessage?._id) - idToTimeStamp(c1.mostRecentMessage?._id))
+                                ?.sort((c1, c2) => this.sortChatrooms(c1, c2))
                                 ?.map(c => (
                                     <li key={c._id}>
                                         <NavLink activeClassName='is-active' to={`${this.props.match.path}/${c._id}`}>
@@ -80,8 +92,7 @@ class ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComp
                                     <h3>Join a chatroom...</h3>
                                 </div>
                             </Route>
-                            <Route exact path={`${this.props.match.path}/new`}>
-                                <NewChatroom />
+                            <Route exact path={`${this.props.match.path}/new`} component={NewChatroom}>
                             </Route>
                             <Route path={`${this.props.match.path}/:id`} component={Chatroom} />
                         </Switch>

@@ -9,6 +9,10 @@ export const CHECK_LOGIN = '[Login] Check Login'
 export const CHECK_LOGIN_SUCCESS = '[Login] Check Login Success';
 export const CHECK_LOGIN_FAIL = '[Login] Check Login Fail';
 
+export const SIGN_UP = '[Login] Sign Up';
+export const SIGN_UP_SUCCESS = '[Login] Sign Up Success';
+export const SIGN_UP_FAIL = '[Login] Sign Up Fail';
+
 export const LOGIN = '[Login] Login';
 export const LOGIN_SUCCESS = '[Login] Login Success';
 export const LOGIN_FAIL = '[Login] Login Fail';
@@ -30,6 +34,20 @@ interface CheckLoginFail {
     type: typeof CHECK_LOGIN_FAIL
     error: APIError;
 };
+
+interface SignUp {
+    type: typeof SIGN_UP
+};
+
+interface SignUpSuccess {
+    type: typeof SIGN_UP_SUCCESS,
+    currentUser: db.user.Schema
+}
+
+interface SignUpFail {
+    type: typeof SIGN_UP_FAIL,
+    error: APIError
+}
 
 interface Login {
     type: typeof LOGIN,
@@ -67,7 +85,10 @@ export type LoginActions =
     | LoginFail
     | Logout
     | LogoutSuccess
-    | LogoutFail;
+    | LogoutFail
+    | SignUp
+    | SignUpSuccess
+    | SignUpFail;
 
 export const checkLogin$ = (ifLoggedInFn: () => void = () => { }, ifLoggedOutFn: () => void = () => { }) => {
     return (dispatch: Dispatch, state: RootSchema) => {
@@ -105,6 +126,43 @@ export const checkLoginFail = (error: APIError): LoginActions => {
         type: CHECK_LOGIN_FAIL,
         error
     }
+};
+
+export const signUp$ = (username: db.user.Schema['username'], name: db.user.Schema['name']) => {
+    return (dispatch: Dispatch, state: RootSchema) => {
+        dispatch(signUp());
+
+        return APIService.signUp(username, name)
+            .then(
+                (res) => {
+                    dispatch(signUpSuccess(res));
+                    dispatch(push('/chat'));
+                },
+                (err) => {
+                    dispatch(signUpFail(err))
+                }
+            );
+    };
+};
+
+export const signUp = (): LoginActions => {
+    return {
+        type: SIGN_UP
+    };
+};
+
+export const signUpSuccess = (currentUser: db.user.Schema): LoginActions => {
+    return {
+        type: SIGN_UP_SUCCESS,
+        currentUser
+    };
+};
+
+export const signUpFail = (error: APIError): LoginActions => {
+    return {
+        type: SIGN_UP_FAIL,
+        error
+    };
 };
 
 export const login$ = (username: db.user.Schema['username']) => {
@@ -187,6 +245,10 @@ export default {
     checkLogin,
     checkLoginSuccess,
     checkLoginFail,
+    signUp$,
+    signUp,
+    signUpSuccess,
+    signUpFail,
     login$,
     login,
     loginSuccess,

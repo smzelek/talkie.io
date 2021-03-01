@@ -5,6 +5,9 @@
     align-items: flex-end;
 
     &__view {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
         padding: 40px;
         overflow: auto;
         display: flex;
@@ -46,6 +49,11 @@
             border: none;
             border-radius: 5px;
             font-size: 18px;
+            &:hover,
+            &:focus {
+                background: #1472ff;
+                cursor: pointer;
+            }
         }
     }
 }

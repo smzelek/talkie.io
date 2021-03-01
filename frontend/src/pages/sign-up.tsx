@@ -1,6 +1,5 @@
-import './login.scss';
+import './sign-up.scss';
 import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
 import { RootSchema } from '../store/schemas';
 import { ThunkDispatch } from 'redux-thunk';
 import actions from '../store/actions';
@@ -8,53 +7,55 @@ import React from "react";
 import selectors from '../store/selectors';
 import { Link } from 'react-router-dom';
 
-interface LoginProps {
-    checkingLogin: boolean;
-    loggingIn: boolean;
+interface SignUpProps {
+    creatingUser: boolean;
 }
 
 interface ThunkDispatchProp {
     dispatch: ThunkDispatch<RootSchema, {}, any>;
 }
 
-interface LoginState {
+interface SignUpState {
     username: string;
+    name: string;
 }
 
-class LoginPage extends React.Component<LoginProps & ThunkDispatchProp, LoginState> {
-    constructor(props: LoginProps & ThunkDispatchProp) {
+class SignUpPage extends React.Component<SignUpProps & ThunkDispatchProp, SignUpState> {
+    constructor(props: SignUpProps & ThunkDispatchProp) {
         super(props);
-        this.state = { username: '' };
+        this.state = { username: '', name: '' };
     }
 
     onUsernameInput(event: React.ChangeEvent<HTMLInputElement>) {
         this.setState({ username: event.target.value.toLowerCase() });
     }
 
-    componentDidMount() {
-        this.props.dispatch(actions.login.checkLogin$(() => {
-            this.props.dispatch(push('/chat'));
-        }));
+    onNameInput(event: React.ChangeEvent<HTMLInputElement>) {
+        this.setState({ name: event.target.value });
     }
 
-    login() {
-        this.props.dispatch(actions.login.login$(this.state.username));
+    signUp() {
+        this.props.dispatch(actions.login.signUp$(this.state.username, this.state.name));
     }
 
     render() {
         return (
             <div id="container">
-                <div className="login">
+                <div className="sign-up">
                     <div className="welcome-card">
                         <h1>
                             welcome to <span className="app-name">Talkie.io</span>
                         </h1>
-                        <h2>Please login or <Link to="/sign-up">sign up</Link></h2>
+                        <h2>Create your account or <Link to='/login'>back to login</Link></h2>
                         <label>
                             Username
                             <input type="text" value={this.state.username} onChange={(e) => this.onUsernameInput(e)} />
                         </label>
-                        <button type="submit" onClick={() => this.login()}>
+                        <label>
+                            Name
+                            <input type="text" value={this.state.name} onChange={(e) => this.onNameInput(e)} />
+                        </label>
+                        <button onClick={() => this.signUp()} type="submit" >
                             Submit
                         </button>
                     </div>
@@ -64,11 +65,10 @@ class LoginPage extends React.Component<LoginProps & ThunkDispatchProp, LoginSta
     }
 }
 
-const mapStateToProps = (state: RootSchema): LoginProps => {
+const mapStateToProps = (state: RootSchema): SignUpProps => {
     return {
-        checkingLogin: selectors.login.checkingLogin(state).inProgress,
-        loggingIn: selectors.login.loggingIn(state).inProgress,
+        creatingUser: selectors.login.creatingUser(state).inProgress,
     };
 };
 
-export default connect(mapStateToProps)(LoginPage);
+export default connect(mapStateToProps)(SignUpPage);

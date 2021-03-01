@@ -21,7 +21,7 @@ export class ChatroomCard extends React.Component<ChatroomCardProps, {}> {
     render() {
         const timeAgo = new TimeAgo('en-US');
 
-        const firstLetter = this.props.name.charAt(0);
+        const firstLetter = this.props.name.charAt(0).toUpperCase();
         return (
             <article className="chatroom__card">
                 <span className="card__icon" style={{ backgroundColor: stc(firstLetter) }}>
@@ -29,8 +29,10 @@ export class ChatroomCard extends React.Component<ChatroomCardProps, {}> {
                 </span>
                 <div className="card__info">
                     <h1>{this.props.name}</h1>
-                    {this.props.mostRecentMessage && (
+                    {this.props.mostRecentMessage ? (
                         <p>{this.props.mostRecentMessage.sentBy.split(' ')[0]}: {this.props.mostRecentMessage.content}</p>
+                    ) : (
+                        <p>No messages yet</p>
                     )}
                 </div>
                 <div className="card__timestamp">

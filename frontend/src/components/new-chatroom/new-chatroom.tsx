@@ -4,6 +4,7 @@ import { ThunkDispatch } from "redux-thunk";
 import actions from "../../store/actions";
 import { RootSchema } from "../../store/schemas";
 import selectors from "../../store/selectors";
+import './new-chatroom.scss';
 
 export interface NewChatroomProps {
     creatingRoom: boolean;
@@ -17,7 +18,7 @@ interface NewChatroomState {
     name: string;
 }
 
-class NewChatroom extends React.Component<NewChatroomProps & ThunkDispatchProp, NewChatroomState> {
+export class NewChatroom extends React.Component<NewChatroomProps & ThunkDispatchProp, NewChatroomState> {
     constructor(props: NewChatroomProps & ThunkDispatchProp) {
         super(props);
         this.state = { name: '' };
@@ -33,12 +34,17 @@ class NewChatroom extends React.Component<NewChatroomProps & ThunkDispatchProp, 
 
     render() {
         return (
-            <div>
-                Choose a name for the new room
-                <input disabled={this.props.creatingRoom} value={this.state.name} onChange={(e) => this.onNameInput(e)} />
-                <button disabled={this.props.creatingRoom} onClick={() => this.onCreate()}>
-                    Create Room
-            </button>
+            <div className="new-chatroom">
+                <div className="card">
+                    <h2>Choose a name for the new room</h2>
+                    <label>
+                        Room name
+                        <input disabled={this.props.creatingRoom} value={this.state.name} onChange={(e) => this.onNameInput(e)} />
+                    </label>
+                    <button disabled={this.props.creatingRoom} onClick={() => this.onCreate()}>
+                        Create Room
+                    </button>
+                </div>
             </div>
         );
     }
