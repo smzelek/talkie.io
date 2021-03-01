@@ -25,14 +25,17 @@
         * GET recent messages for room (MAX of 50)
 
 ## Database
+https://app.creately.com/diagram/506HtTwESno/edit
+
 * MongoDB
     * Schemas:
         * User table
             * User_id bigint (PK) ❄️
             * User_name text
+            * name text
         * Messages table 
-            * Chatroom_id bigint (FK) 
             * Message_id bigint (PK) ❄️
+            * Chatroom_id bigint (FK) 
             * Author_id bigint (FK)
             * Content text
         * Chatrooms table
