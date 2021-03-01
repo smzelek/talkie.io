@@ -1,17 +1,13 @@
-import {
-    model as _model,
-    Schema,
-    Document
-} from "mongoose";
+import * as mongoose from 'mongoose'
 
-export interface schema {
+export interface Schema {
     username: string;
     name: string;
 };
 
-export interface document extends schema, Document { }
+export interface Document extends Schema, mongoose.Document { }
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -19,6 +15,9 @@ const userSchema = new Schema({
         minLength: 3,
         maxLength: 100,
         lowercase: true,
+        index: {
+            unique: true
+        }
     },
     name: {
         type: String,
@@ -29,4 +28,4 @@ const userSchema = new Schema({
     },
 });
 
-export const model = _model<document>("User", userSchema);
+export const model = mongoose.model<Document>("User", userSchema);

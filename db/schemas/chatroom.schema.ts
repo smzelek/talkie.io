@@ -1,18 +1,14 @@
-import {
-    model as _model,
-    Schema,
-    Document
-} from "mongoose";
-import { document as userDocument } from "./user.schema";
+import * as mongoose from 'mongoose'
+import * as user from "./user.schema";
 
-export interface schema {
+export interface Schema {
     name: string;
-    user_createdby: document['_id'];
+    user_createdby: user.Document['_id'];
 };
 
-export interface document extends schema, Document { }
+export interface Document extends Schema, mongoose.Document { }
 
-const chatroomSchema = new Schema({
+const chatroomSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -21,10 +17,10 @@ const chatroomSchema = new Schema({
         maxLength: 100
     },
     user_createdby: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
 });
 
-export const model = _model<document>("Chatroom", chatroomSchema);
+export const model = mongoose.model<Document>("Chatroom", chatroomSchema);

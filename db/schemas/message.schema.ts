@@ -1,20 +1,16 @@
-import {
-    model as _model,
-    Schema,
-    Document
-} from "mongoose";
-import { document as chatroomDocument } from "./chatroom.schema";
-import { document as userDocument } from "./user.schema";
+import * as mongoose from 'mongoose'
+import * as user from "./user.schema";
+import * as chatroom from "./chatroom.schema";
 
-export interface schema {
+export interface Schema {
     content: string;
-    user_sentby: userDocument['_id'];
-    chatroom_sentto: chatroomDocument['_id'];
+    user_sentby: user.Document['_id'];
+    chatroom_sentto: chatroom.Document['_id'];
 };
 
-export interface document extends schema, Document { }
+export interface Document extends Schema, mongoose.Document { }
 
-const messageSchema = new Schema({
+const messageSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true,
@@ -23,16 +19,16 @@ const messageSchema = new Schema({
         maxLength: 1000
     },
     chatroom_sentto: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Chatroom',
         required: true
     },
     user_sentby: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
 });
 
-export const model = _model<document>("Message", messageSchema);
+export const model = mongoose.model<Document>("Message", messageSchema);
 

@@ -1,12 +1,14 @@
-// import "reflect-metadata";
 import { injectable } from "inversify";
 import { connect, Model } from "mongoose";
 import * as db from '../../db';
 import { BehaviorSubject, race, Subject } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
+import { APIError } from '../error';
 
 export interface IDbService {
-    users: () => Promise<Model<db.user.document>>;
+    Users: () => Promise<Model<db.user.Document>>;
+    Chatrooms: () => Promise<Model<db.chatroom.Document>>;
+    Messages: () => Promise<Model<db.message.Document>>;
 }
 
 interface ConnectionStatus {
@@ -24,9 +26,19 @@ export class DbService implements IDbService {
         this.debounceConnectionRequest();
     }
 
-    async users(): Promise<Model<db.user.document>> {
+    async Users(): Promise<Model<db.user.Document>> {
         await this.attemptDbConnection();
         return db.user.model;
+    }
+
+    async Messages(): Promise<Model<db.message.Document>> {
+        await this.attemptDbConnection();
+        return db.message.model;
+    }
+
+    async Chatrooms(): Promise<Model<db.chatroom.Document>> {
+        await this.attemptDbConnection();
+        return db.chatroom.model;
     }
 
     private debounceConnectionRequest() {
@@ -52,7 +64,7 @@ export class DbService implements IDbService {
         ).pipe(take(1)).toPromise();
 
         if (status.error) {
-            throw status.error;
+            throw new APIError(500, status.error);
         }
     }
 }
