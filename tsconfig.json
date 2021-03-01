@@ -4,6 +4,7 @@
         "jsx": "react",
         "jsxFactory": "h",
         "module": "commonjs",
+        "moduleResolution": "node",
         "outDir": "./dist",
         "rootDir": "./",
         "sourceMap": true,

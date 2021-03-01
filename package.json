@@ -1,9 +1,10 @@
 {
     "private": true,
     "scripts": {
-        "start": "docker-compose up --build --abort-on-container-exit --remove-orphans",
+        "start": "docker-compose down -v && docker-compose build && docker-compose up --remove-orphans",
         "start:app": "webpack-dev-server --open --config frontend/webpack.dev.js",
-        "start:server": "ts-node-dev --poll backend/main.ts"
+        "start:server": "ts-node-dev --poll backend/main.ts",
+        "initialize-db": "ts-node db/init/init.ts"
     },
     "engines": {
         "node": "12.18.2",
@@ -20,6 +21,7 @@
         "@types/enzyme": "^3.10.5",
         "@types/express": "^4.17.11",
         "@types/faker": "^5.1.7",
+        "@types/mongoose": "^5.10.3",
         "clean-webpack-plugin": "^3.0.0",
         "compression-webpack-plugin": "^4.0.0",
         "copy-webpack-plugin": "^6.0.2",
