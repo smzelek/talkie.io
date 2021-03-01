@@ -3,7 +3,7 @@
     "scripts": {
         "start": "docker-compose up --build --abort-on-container-exit --remove-orphans",
         "start:app": "webpack-dev-server --open --config frontend/webpack.dev.js",
-        "start:server": "ts-node-dev backend/main.ts"
+        "start:server": "ts-node-dev --poll backend/main.ts"
     },
     "engines": {
         "node": "12.18.2",

@@ -17,15 +17,13 @@ app.get('/user', (req, res) => {
 });
 
 app.get('/test-db', async (req, res) => {
-    console.log('got req')
-    // const db = await connectDb();
-    // console.log('got req')
+    await connectDb();
+    console.log('got db')
 
     return res.json({});
 })
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`⚡️[server]: Server is running at http://0.0.0.0:${PORT}`);
-
 });
 

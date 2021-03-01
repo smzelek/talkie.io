@@ -10,6 +10,7 @@ services:
   server:
     volumes:
       - ./:/usr/src/app
+      - /usr/src/app/node_modules/
     build:
       context: .
       dockerfile: backend/Dockerfile
@@ -21,6 +22,7 @@ services:
   webapp:
     volumes:
        - ./:/usr/src/app
+       - /usr/src/app/node_modules/
     build:
       context: .
       dockerfile: frontend/Dockerfile
