@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "rootDir": "./",
+        "sourceMap": true,
+        "strict": true,
+        "target": "es5",
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

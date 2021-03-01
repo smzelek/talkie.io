@@ -5,7 +5,7 @@ export interface HelloWorldProps {
 }
 
 export default class HelloWorld extends Component<HelloWorldProps, any> {
-    render(props) {
-        return <p>Hello {props.name}!</p>
+    render(props: HelloWorldProps) {
+        return <p>Hel..!.lo {props.name}!</p>
     }
 }

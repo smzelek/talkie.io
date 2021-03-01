@@ -7,57 +7,60 @@ const CompressionPlugin = require('compression-webpack-plugin');
 module.exports = {
     entry:
     {
-        login: './src/pages/login.ts',
+        login: './frontend/src/pages/login.tsx',
     },
     output: {
         path: path.resolve('dist'),
         filename: '[name].js'
     },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+    },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                exclude: /node_modules/,
-                loaders: ['ts-loader']
+                loaders: ['ts-loader'],
+                exclude: /frontend\/node_modules/
             },
-            { test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader' },
+            {
+                test: /\.scss$/i,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            implementation: require("sass"),
+                        },
+                    },
+                ],
+            }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './www/index.html',
+            template: './frontend/www/index.html',
             filename: 'index.html',
             inject: 'body',
-            chunks: ['bio']
+            chunks: ['root']
         }),
+        // new HtmlWebpackPlugin({
+        //     template: './www/chat/index.html',
+        //     filename: 'chat/index.html',
+        //     inject: 'body',
+        //     chunks: ['chat']
+        // }),
         new HtmlWebpackPlugin({
-            template: './www/blog/index.html',
-            filename: 'blog/index.html',
+            template: './frontend/www/login/index.html',
+            filename: 'login/index.html',
             inject: 'body',
-            chunks: ['blog']
-        }),
-        new HtmlWebpackPlugin({
-            template: './www/apps/index.html',
-            filename: 'apps/index.html',
-            inject: 'body',
-            chunks: ['apps']
-        }),
-        new HtmlWebpackPlugin({
-            template: './www/apps/tic-metac-toe/index.html',
-            filename: 'apps/tic-metac-toe/index.html',
-            inject: 'body',
-            chunks: ['ticMetacToe']
-        }),
-        new HtmlWebpackPlugin({
-            template: './www/blog/why-our-company-needed-web-components/index.html',
-            filename: 'blog/why-our-company-needed-web-components/index.html',
-            inject: 'body',
-            chunks: ['whyOurCompanyWCs']
+            chunks: ['login']
         }),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [
-                { from: 'assets', to: 'assets' }
+                { from: './frontend/assets', to: 'assets' }
             ]
         }),
         new CompressionPlugin({
