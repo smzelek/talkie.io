@@ -5,16 +5,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
-    entry:
-    {
-        login: './frontend/src/pages/login.tsx',
-    },
+    entry: './frontend/src/app.tsx',
     output: {
         path: path.resolve('dist'),
-        filename: '[name].js'
+        filename: 'main.js'
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js'],
     },
     module: {
         rules: [
@@ -42,20 +39,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './frontend/www/index.html',
             filename: 'index.html',
-            inject: 'body',
-            chunks: ['root']
-        }),
-        // new HtmlWebpackPlugin({
-        //     template: './www/chat/index.html',
-        //     filename: 'chat/index.html',
-        //     inject: 'body',
-        //     chunks: ['chat']
-        // }),
-        new HtmlWebpackPlugin({
-            template: './frontend/www/login/index.html',
-            filename: 'login/index.html',
-            inject: 'body',
-            chunks: ['login']
+            inject: 'body'
         }),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({

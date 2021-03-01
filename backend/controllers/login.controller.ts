@@ -12,16 +12,16 @@ export class LoginController implements interfaces.Controller {
 
     @httpGet("/")
     private async currentUser(req: express.Request, res: express.Response): Promise<db.user.Schema | undefined> {
+        console.log('got req')
         const user = await this.loginService.currentUser(req, res);
         return user;
     }
 
     @httpPost("/")
     private async login(req: express.Request<{}, {}, LoginRequest>, res: express.Response) {
-        await this.loginService.login(req, res);
-        return {
-            code: 200
-        };
+        const user = await this.loginService.login(req, res);
+        res.status(200);
+        return user;
     }
 
     @httpDelete("/")

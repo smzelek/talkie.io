@@ -1,11 +1,14 @@
-import { h, Component } from 'preact';
+import React from "react";
 
 export interface HelloWorldProps {
     name: string
 }
 
-export default class HelloWorld extends Component<HelloWorldProps, any> {
-    render(props: HelloWorldProps) {
-        return <p>Hello {props.name}!</p>
+export default class HelloWorld extends React.Component<HelloWorldProps, {}> {
+    constructor(props: HelloWorldProps) {
+        super(props);
+    }
+    render() {
+        return <p>Hello {this.props.name}!</p>
     }
 }

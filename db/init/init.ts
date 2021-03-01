@@ -7,7 +7,7 @@ const default_users: db.user.Schema[] = Array.from({ length: 10 }, () => {
     const lastname = name.lastName();
     return {
         name: `${firstname} ${lastname}`,
-        username: internet.userName(firstname, lastname)
+        username: internet.userName(firstname, lastname).toLowerCase()
     };
 });
 

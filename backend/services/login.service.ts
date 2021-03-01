@@ -7,7 +7,7 @@ import { UserService } from "./user.service";
 
 export interface ILoginService {
     currentUser: (req: express.Request, res: express.Response) => Promise<db.user.Schema | undefined>;
-    login: (req: express.Request<{}, {}, LoginRequest>, res: express.Response) => Promise<void>;
+    login: (req: express.Request<{}, {}, LoginRequest>, res: express.Response) => Promise<db.user.Schema | undefined>;
     logout: (req: express.Request, res: express.Response) => void;
 }
 
@@ -30,12 +30,14 @@ export class LoginService implements ILoginService {
         return userData;
     }
 
-    async login(req: express.Request<{}, {}, LoginRequest>, res: express.Response): Promise<void> {
+    async login(req: express.Request<{}, {}, LoginRequest>, res: express.Response): Promise<db.user.Schema | undefined> {
+        console.log(req.body.username)
         const user = await this.userService.getUserByUsername(req.body.username);
         if (!user) {
             throw new APIError(403, 'User does not exist.')
         }
         this.loginWithCookie(res, user.id);
+        return user;
     }
 
     logout(req: express.Request, res: express.Response): void {
