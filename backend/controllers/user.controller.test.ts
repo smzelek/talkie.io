@@ -4,19 +4,24 @@ import { TOKENS } from '../tokens';
 import * as db from '../../db';
 import supertest from 'supertest';
 import { APIError, ERROR_KEYS } from '../error';
-import { IUserService } from '../services';
+import { ILoginService, IUserService } from '../services';
 
 describe('User Controller Tests', () => {
     let mockUserService: IUserService;
+    let mockLoginService: ILoginService;
 
     beforeEach(() => {
         mockUserService = mock<IUserService>();
+        mockLoginService = mock<ILoginService>();
         IOC.rebind(TOKENS.UserService).toConstantValue(instance(mockUserService));
+        IOC.rebind(TOKENS.LoginService).toConstantValue(instance(mockLoginService));
     });
 
     test('should return new user data when insert succeeds', async () => {
         const requestBody: db.user.Schema = { username: 'abc', name: 'test' };
         when(mockUserService.createUser(anything())).thenResolve(requestBody as db.user.Document);
+        when(mockLoginService.login(anything(), anything())).thenResolve(requestBody as db.user.Schema);
+
         const res = await supertest(app)
             .post('/users')
             .send(requestBody);
@@ -31,7 +36,7 @@ describe('User Controller Tests', () => {
         const res = await supertest(app)
             .post('/users')
             .send({});
-        expect(res.status).toBe(422);
-        expect(res.body).toEqual({ code: 422, message: validationError.message });
+        expect(res.status).toBe(409);
+        expect(res.body).toEqual({ code: 409, message: validationError.message });
     });
 });
