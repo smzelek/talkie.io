@@ -1,11 +1,15 @@
 import * as mongoose from 'mongoose'
 
-export interface Schema {
+interface _Schema {
     username: string;
     name: string;
 };
 
-export interface Document extends Schema, mongoose.Document { }
+export interface Schema extends _Schema {
+    id?: string;
+}
+
+export interface Document extends _Schema, mongoose.Document { }
 
 const userSchema = new mongoose.Schema({
     username: {

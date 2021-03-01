@@ -1,16 +1,19 @@
 import 'reflect-metadata';
 import cors from 'cors';
-import './controllers/user.controller';
+import './controllers';
 import { Container } from "inversify";
 import { TOKENS } from "./tokens";
-import { IDbService, DbService } from "./services/db.service";
 import { InversifyExpressServer } from 'inversify-express-utils';
 import bodyParser from 'body-parser';
 import { APIError, toApiError } from './error';
 import express from 'express';
+import { DbService, IDbService, ILoginService, IUserService, LoginService, UserService } from './services';
+import cookies from 'cookie-parser';
 
 const IOC = new Container();
 IOC.bind<IDbService>(TOKENS.DbService).to(DbService).inSingletonScope();
+IOC.bind<IUserService>(TOKENS.UserService).to(UserService);
+IOC.bind<ILoginService>(TOKENS.LoginService).to(LoginService);
 
 const PORT = Number(process.env.PORT) || 8000;
 
@@ -21,6 +24,7 @@ server.setConfig((app) => {
         extended: true
     }));
     app.use(bodyParser.json());
+    app.use(cookies());
 });
 
 const app = server.build();
@@ -32,10 +36,10 @@ app.use(function (err: Error, _: any, res: express.Response, __: any) {
     res.status(apiError.code).send(APIError.toResponse(apiError));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, '0.0.0.0', () => {
         console.log(`⚡️[server]: Server is running at http://0.0.0.0:${PORT}`);
-    }
-});
+    });
+}
 
 export { app, IOC };

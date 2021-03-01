@@ -1,4 +1,6 @@
 export const TOKENS = {
-    DbService: "DbService"
+    DbService: "DbService",
+    UserService: "UserService",
+    LoginService: "LoginService"
 };
 

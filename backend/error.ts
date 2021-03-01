@@ -18,7 +18,7 @@ export const toApiError = (err: Error) => {
 
     switch (err.name) {
         case ERROR_KEYS.ValidationError:
-            return new APIError(422, err.message);
+            return new APIError(409, err.message);
         case ERROR_KEYS.MongoError:
             return new APIError(500, 'Database error.');
         default:

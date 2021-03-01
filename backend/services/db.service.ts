@@ -27,7 +27,6 @@ export class DbService implements IDbService {
     }
 
     async Users(): Promise<Model<db.user.Document>> {
-        console.log('NOT CALLED')
         await this.attemptDbConnection();
         return db.user.model;
     }

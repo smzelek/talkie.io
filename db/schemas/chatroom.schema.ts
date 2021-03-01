@@ -1,12 +1,15 @@
 import * as mongoose from 'mongoose'
 import * as user from "./user.schema";
 
-export interface Schema {
+export interface _Schema {
     name: string;
     user_createdby: user.Document['_id'];
 };
+export interface Schema extends _Schema {
+    id?: string;
+}
 
-export interface Document extends Schema, mongoose.Document { }
+export interface Document extends _Schema, mongoose.Document { }
 
 const chatroomSchema = new mongoose.Schema({
     name: {
