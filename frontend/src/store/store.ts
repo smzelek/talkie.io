@@ -6,10 +6,8 @@ import { routerMiddleware } from 'connected-react-router'
 
 export const history = createBrowserHistory();
 export const store = createStore(createRootReducer(history),
-    compose(
-        applyMiddleware(
-            routerMiddleware(history),
-            thunk
-        ),
+    applyMiddleware(
+        routerMiddleware(history),
+        thunk,
     ),
 );

@@ -6,7 +6,7 @@ interface _Schema {
 };
 
 export interface Schema extends _Schema {
-    id?: string;
+    _id?: string;
 }
 
 export interface Document extends _Schema, mongoose.Document { }

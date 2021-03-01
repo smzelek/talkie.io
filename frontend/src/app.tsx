@@ -6,6 +6,11 @@ import LoginPage from './pages/login';
 import ChatPage from './pages/chat';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import './global.scss';
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+TimeAgo.addDefaultLocale(en)
+
 class App extends React.Component<{}, {}> {
 
     constructor(props: {}) {
@@ -20,9 +25,7 @@ class App extends React.Component<{}, {}> {
                         <Route path="/login" render={() => (
                             <LoginPage />
                         )} />
-                        <Route path="/chat" render={() => (
-                            <ChatPage />
-                        )} />
+                        <Route path="/chat" component={ChatPage} />
                         <Route exact path="/" render={() => (
                             <Redirect to="/login" />
                         )} />

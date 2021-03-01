@@ -1,0 +1,51 @@
+.chat {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: flex-end;
+
+    &__view {
+        padding: 40px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column-reverse;
+        &:after {
+            content: "";
+            display: block;
+            width: 1px;
+            height: 50px;
+            min-height: 50px;
+        }
+    }
+
+    &__input {
+        box-sizing: border-box;
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        height: 100px;
+        min-height: 100px;
+        border: none;
+        padding: 10px;
+        width: 100%;
+
+        textarea {
+            height: 100%;
+            width: 100%;
+            resize: none;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin: 0 20px;
+            width: 100px;
+            height: 50px;
+            background: #1480ef;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+    }
+}

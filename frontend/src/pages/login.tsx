@@ -5,6 +5,7 @@ import React from "react";
 import actions from '../store/actions';
 import { ThunkDispatch } from 'redux-thunk';
 import selectors from '../store/selectors';
+import { push } from 'connected-react-router';
 
 interface LoginProps {
     checkingLogin: boolean;
@@ -30,7 +31,9 @@ class LoginPage extends React.Component<LoginProps & ThunkDispatchProp, LoginSta
     }
 
     componentDidMount() {
-        this.props.dispatch(actions.login.checkLogin$());
+        this.props.dispatch(actions.login.checkLogin$(() => {
+            this.props.dispatch(push('/chat'));
+        }));
     }
 
     login() {

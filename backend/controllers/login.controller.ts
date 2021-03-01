@@ -3,7 +3,8 @@ import { interfaces, controller, httpPost, httpGet, httpDelete, } from "inversif
 import { inject } from "inversify";
 import { TOKENS } from "../tokens";
 import * as db from '../../db';
-import { LoginRequest, LoginService } from "../services";
+import { LoginService } from "../services";
+import { LoginRequest } from "../../core";
 
 @controller("/login")
 export class LoginController implements interfaces.Controller {
@@ -12,7 +13,6 @@ export class LoginController implements interfaces.Controller {
 
     @httpGet("/")
     private async currentUser(req: express.Request, res: express.Response): Promise<db.user.Schema | undefined> {
-        console.log('got req')
         const user = await this.loginService.currentUser(req, res);
         return user;
     }

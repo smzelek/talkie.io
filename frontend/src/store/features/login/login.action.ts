@@ -13,6 +13,10 @@ export const LOGIN = '[Login] Login';
 export const LOGIN_SUCCESS = '[Login] Login Success';
 export const LOGIN_FAIL = '[Login] Login Fail';
 
+export const LOGOUT = '[Login] Logout';
+export const LOGOUT_SUCCESS = '[Login] Logout';
+export const LOGOUT_FAIL = '[Login] Logout';
+
 interface CheckLogin {
     type: typeof CHECK_LOGIN
 };
@@ -41,29 +45,43 @@ interface LoginFail {
     error: APIError
 }
 
+interface Logout {
+    type: typeof LOGOUT;
+}
+
+interface LogoutSuccess {
+    type: typeof LOGOUT_SUCCESS;
+}
+
+interface LogoutFail {
+    type: typeof LOGOUT_FAIL;
+    error: APIError;
+}
+
 export type LoginActions =
     | CheckLogin
     | CheckLoginSuccess
     | CheckLoginFail
     | Login
     | LoginSuccess
-    | LoginFail;
+    | LoginFail
+    | Logout
+    | LogoutSuccess
+    | LogoutFail;
 
-export const checkLogin$ = () => {
-    return async (dispatch: Dispatch, state: RootSchema) => {
+export const checkLogin$ = (ifLoggedInFn: () => void = () => { }, ifLoggedOutFn: () => void = () => { }) => {
+    return (dispatch: Dispatch, state: RootSchema) => {
         dispatch(checkLogin());
-
-        console.log('checkinglogin??')
 
         return APIService.checkLogin()
             .then(
                 (res) => {
                     dispatch(checkLoginSuccess(res))
-                    dispatch(push('/chat'));
+                    ifLoggedInFn();
                 },
                 (err) => {
                     dispatch(checkLoginFail(err))
-                    dispatch(push('/login'));
+                    ifLoggedOutFn();
                 }
             );
     };
@@ -90,7 +108,7 @@ export const checkLoginFail = (error: APIError): LoginActions => {
 };
 
 export const login$ = (username: db.user.Schema['username']) => {
-    return async (dispatch: Dispatch, state: RootSchema) => {
+    return (dispatch: Dispatch, state: RootSchema) => {
         dispatch(login());
 
         return APIService.login(username)
@@ -126,6 +144,44 @@ export const loginFail = (error: APIError): LoginActions => {
     };
 };
 
+export const logout$ = () => {
+    return (dispatch: Dispatch, state: RootSchema) => {
+        dispatch(logout());
+
+        return APIService.logout()
+            .then(
+                (res) => {
+                    dispatch(logoutSuccess());
+                    dispatch(push('/login'));
+                },
+                (err) => {
+                    dispatch(logoutFail(err))
+                }
+            );
+    };
+};
+
+
+export const logout = (): LoginActions => {
+    return {
+        type: LOGOUT,
+    }
+};
+
+export const logoutSuccess = (): LoginActions => {
+    return {
+        type: LOGOUT_SUCCESS,
+    };
+};
+
+export const logoutFail = (error: APIError): LoginActions => {
+    return {
+        type: LOGOUT_FAIL,
+        error
+    };
+};
+
+
 export default {
     checkLogin$,
     checkLogin,
@@ -134,5 +190,9 @@ export default {
     login$,
     login,
     loginSuccess,
-    loginFail
+    loginFail,
+    logout$,
+    logout,
+    logoutSuccess,
+    logoutFail
 }

@@ -9,6 +9,7 @@ import { APIError, toApiError } from './error';
 import express from 'express';
 import { ChatroomService, DbService, IChatroomService, IDbService, ILoginService, IUserService, LoginService, UserService } from './services';
 import cookies from 'cookie-parser';
+import '../core';
 
 const IOC = new Container();
 IOC.bind<IDbService>(TOKENS.DbService).to(DbService).inSingletonScope();

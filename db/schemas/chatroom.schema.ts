@@ -6,7 +6,7 @@ interface _Schema {
     user_createdby: user.Document['_id'];
 };
 export interface Schema extends _Schema {
-    id?: string;
+    _id?: string;
 }
 
 export interface Document extends _Schema, mongoose.Document { }

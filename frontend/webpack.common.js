@@ -7,8 +7,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 module.exports = {
     entry: './frontend/src/app.tsx',
     output: {
-        path: path.resolve('dist'),
-        filename: 'main.js',
+        path: path.resolve('frontend/dist'),
+        filename: 'app.js',
         publicPath: '/'
     },
     resolve: {
@@ -19,7 +19,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 loaders: ['ts-loader'],
-                exclude: /frontend\/node_modules/
+                exclude: /node_modules/
             },
             {
                 test: /\.scss$/i,

@@ -8,7 +8,7 @@ export interface _Schema {
     chatroom_sentto: chatroom.Document['_id'];
 };
 export interface Schema extends _Schema {
-    id?: string;
+    _id?: string;
 }
 
 export interface Document extends _Schema, mongoose.Document { }

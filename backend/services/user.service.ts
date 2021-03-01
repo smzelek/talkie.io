@@ -49,7 +49,7 @@ export class UserService implements IUserService {
 
     static documentToSchema(document: db.user.Document): db.user.Schema {
         return {
-            id: document.id,
+            _id: document._id,
             username: document.username,
             name: document.name
         };

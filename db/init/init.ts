@@ -43,7 +43,7 @@ const initializeDb = async function () {
     await db.chatroom.model.collection.insertMany(
         default_chatrooms.map((c): db.chatroom.Schema => ({
             ...c,
-            user_createdby: random.arrayElement(users).id
+            user_createdby: random.arrayElement(users)._id
         }))
     );
     const chatrooms = await db.chatroom.model.find({});
@@ -51,8 +51,8 @@ const initializeDb = async function () {
     await db.message.model.collection.insertMany(
         default_messages.map((m): db.message.Schema => ({
             ...m,
-            user_sentby: random.arrayElement(users).id,
-            chatroom_sentto: random.arrayElement(chatrooms).id
+            user_sentby: random.arrayElement(users)._id,
+            chatroom_sentto: random.arrayElement(chatrooms)._id
         }))
     );
 
