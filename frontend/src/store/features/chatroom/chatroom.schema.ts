@@ -1,5 +1,5 @@
 import { ChatroomMessage, ChatroomWithInfo } from '../../../../../core';
-import { AsyncActionState } from "../../utils/async-action-state";
+import { AsyncActionState } from "../../../utils/async-action-state";
 
 export interface ChatroomSchema {
     chatrooms?: ChatroomWithInfo[];

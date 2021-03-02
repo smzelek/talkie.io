@@ -2,10 +2,11 @@ import './chat.scss';
 import { ChatroomCard } from '../components/chatroom-card/chatroom-card';
 import { ChatroomWithInfo } from '../../../core';
 import { connect } from 'react-redux';
-import { idToTimeStamp } from '../store/utils/id-to-timestamp';
+import { idToTimeStamp } from '../utils/id-to-timestamp';
 import { Link, NavLink, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { push } from 'connected-react-router';
 import { RootSchema } from '../store/schemas';
+import { stringToColor } from '../utils/string-to-color';
 import { ThunkDispatch } from 'redux-thunk';
 import * as db from '../../../db';
 import actions from '../store/actions';
@@ -13,7 +14,6 @@ import Chatroom from '../components/chatroom/chatroom';
 import NewChatroom from '../components/new-chatroom/new-chatroom';
 import React from "react";
 import selectors from '../store/selectors';
-import stc from 'string-to-color';
 
 interface ChatProps {
     currentUser?: db.user.Schema;
@@ -47,10 +47,10 @@ class ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComp
     sortChatrooms(c1: ChatroomWithInfo, c2: ChatroomWithInfo) {
         if (!c1.mostRecentMessage && c1.user_createdby === this.props.currentUser?._id) {
             return -1;
-        } 
+        }
         if (!c2.mostRecentMessage && c2.user_createdby === this.props.currentUser?._id) {
             return 1;
-        } 
+        }
         return idToTimeStamp(c2.mostRecentMessage?._id) - idToTimeStamp(c1.mostRecentMessage?._id);
     }
 
@@ -63,7 +63,7 @@ class ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComp
                             <div className="identifiers">
                                 <h1>Talkie.io</h1>
                                 <h2>
-                                    chatting as <span className="name" style={{ color: stc(this.props.currentUser?.name) }}>{this.props.currentUser?.name}</span>
+                                    chatting as <span className="name" style={{ color: stringToColor(this.props.currentUser?.name) }}>{this.props.currentUser?.name}</span>
                                 </h2>
                             </div>
                             <div className="actions">

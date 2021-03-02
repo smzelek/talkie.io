@@ -1,4 +1,4 @@
-import { AsyncActionState } from "../../utils/async-action-state";
+import { AsyncActionState } from "../../../utils/async-action-state";
 import * as db from '../../../../../db';
 
 export interface LoginSchema {

@@ -1,6 +1,5 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
@@ -24,10 +23,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(),
-        new CompressionPlugin({
-            test: /.*.js$/,
-        })
+        new CleanWebpackPlugin()
     ],
     mode: 'development',
     devtool: 'inline-source-map',

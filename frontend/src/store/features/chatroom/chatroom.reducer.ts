@@ -1,5 +1,5 @@
 import { Reducer } from 'redux';
-import { AsyncActionState } from "../../utils/async-action-state";
+import { AsyncActionState } from "../../../utils/async-action-state";
 import { ChatroomSchema, initialChatroomState } from "./chatroom.schema";
 import { ChatroomActions, CREATE, CREATE_FAIL, CREATE_SUCCESS, LOAD, LOAD_FAIL, LOAD_RECENT_MESSAGES, LOAD_RECENT_MESSAGES_FAIL, LOAD_RECENT_MESSAGES_SUCCESS, LOAD_SUCCESS, SEND_MESSAGE, SEND_MESSAGE_FAIL, SEND_MESSAGE_SUCCESS } from './chatroom.action';
 

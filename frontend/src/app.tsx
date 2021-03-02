@@ -7,11 +7,7 @@ import ChatPage from './pages/chat';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import './global.scss';
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
 import SignUpPage from './pages/sign-up';
-
-TimeAgo.addDefaultLocale(en)
 
 class App extends React.Component<{}, {}> {
 

@@ -1,6 +1,6 @@
 import { initialLoginState, LoginSchema } from "./login.schema"
 import { Reducer } from 'redux';
-import { AsyncActionState } from "../../utils/async-action-state";
+import { AsyncActionState } from "../../../utils/async-action-state";
 import { CHECK_LOGIN, CHECK_LOGIN_FAIL, CHECK_LOGIN_SUCCESS, LOGIN, LoginActions, LOGIN_FAIL, LOGIN_SUCCESS, SIGN_UP, SIGN_UP_FAIL, SIGN_UP_SUCCESS } from "./login.action";
 
 export const loginReducer: Reducer<LoginSchema> = (state: LoginSchema = initialLoginState, action: LoginActions): LoginSchema => {

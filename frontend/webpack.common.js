@@ -13,6 +13,11 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js'],
+        alias: {
+            "react": "preact/compat",
+            "react-dom": "preact/compat",
+            "lodash.isequalwith": path.resolve('frontend/src/utils/mock-is-equal-with.js'),
+        }
     },
     module: {
         rules: [

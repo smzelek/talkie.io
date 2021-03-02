@@ -1,8 +1,8 @@
 import React from "react";
 import './chatroom-card.scss';
-import stc from 'string-to-color';
-import TimeAgo from 'javascript-time-ago'
-import { idToTimeStamp } from "../../store/utils/id-to-timestamp";
+import { idToTimeStamp } from "../../utils/id-to-timestamp";
+import { stringToColor } from "../../utils/string-to-color";
+import { timestampToTimeAgo } from "../../utils/timestamp-to-time-ago";
 
 export interface ChatroomCardProps {
     name: string;
@@ -19,12 +19,10 @@ export class ChatroomCard extends React.Component<ChatroomCardProps, {}> {
     }
 
     render() {
-        const timeAgo = new TimeAgo('en-US');
-
         const firstLetter = this.props.name.charAt(0).toUpperCase();
         return (
             <article className="chatroom__card">
-                <span className="card__icon" style={{ backgroundColor: stc(firstLetter) }}>
+                <span className="card__icon" style={{ backgroundColor: stringToColor(firstLetter) }}>
                     {firstLetter}
                 </span>
                 <div className="card__info">
@@ -32,12 +30,12 @@ export class ChatroomCard extends React.Component<ChatroomCardProps, {}> {
                     {this.props.mostRecentMessage ? (
                         <p>{this.props.mostRecentMessage.sentBy.split(' ')[0]}: {this.props.mostRecentMessage.content}</p>
                     ) : (
-                        <p>No messages yet</p>
-                    )}
+                            <p>No messages yet</p>
+                        )}
                 </div>
                 <div className="card__timestamp">
                     {this.props.mostRecentMessage && (
-                        <span>{timeAgo.format(idToTimeStamp(this.props.mostRecentMessage._id))}</span>
+                        <span>{timestampToTimeAgo(idToTimeStamp(this.props.mostRecentMessage._id))}</span>
                     )}
                 </div>
             </article>
