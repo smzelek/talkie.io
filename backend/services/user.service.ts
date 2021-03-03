@@ -1,17 +1,12 @@
 import { inject, injectable } from "inversify";
-import * as db from '../../db';
-import { APIError, ERROR_KEYS } from "../error";
-import { TOKENS } from "../tokens";
-import { DbService } from "./db.service";
-
-export interface IUserService {
-    createUser: (user: db.user.Schema) => Promise<db.user.Schema | undefined>;
-    getUserById: (userId: db.user.Document['id']) => Promise<db.user.Schema | undefined>;
-}
+import { db } from "~db";
+import { IDbService, IUserService } from "~backend/interfaces";
+import { TOKENS } from "~backend/tokens";
+import { core } from "~core";
 
 @injectable()
 export class UserService implements IUserService {
-    constructor(@inject(TOKENS.DbService) private dbService: DbService) { }
+    constructor(@inject(TOKENS.DbService) private dbService: IDbService) { }
 
     async createUser(user: db.user.Schema): Promise<db.user.Schema | undefined> {
         try {
@@ -19,8 +14,8 @@ export class UserService implements IUserService {
             const newUser = await User.create(user);
             return UserService.documentToSchema(newUser);
         } catch (err) {
-            if (err.name === ERROR_KEYS.MongoError && err.code === 11000) {
-                throw new APIError(400, 'Username is already in use.')
+            if (err.name === core.ERROR_KEYS.MongoError && err.code === 11000) {
+                throw new core.APIError(400, 'Username is already in use.')
             } else {
                 throw err;
             }

@@ -1,12 +1,11 @@
 import { anything, instance, mock, when } from 'ts-mockito';
-import { IOC } from '../main';
-import { IDbService } from '../services/db.service';
 import { Model } from 'mongoose';
-import { resolvableInstance } from '../utils/resolvable-instance';
-import { TOKENS } from '../tokens';
-import * as db from '../../db';
-import { APIError, ERROR_KEYS } from '../error';
-import { IUserService } from './user.service';
+import { db } from '~db';
+import { IDbService, IUserService } from '~backend/interfaces';
+import { IOC } from '~backend/main';
+import { TOKENS } from '~backend/tokens';
+import { resolvableInstance } from '~backend/utils';
+import { core } from '~core';
 
 describe('User Service Tests', () => {
     let mockDbService: IDbService;
@@ -30,7 +29,7 @@ describe('User Service Tests', () => {
     });
 
     test('should return error when insert fails due to validation', async () => {
-        const validationError = { name: ERROR_KEYS.ValidationError, code: 1, message: 'Reason for error.' };
+        const validationError = { name: core.ERROR_KEYS.ValidationError, code: 1, message: 'Reason for error.' };
         when(mockUserModel.create(anything())).thenReject(validationError);
 
         await expect(userService.createUser({} as any))
@@ -39,11 +38,11 @@ describe('User Service Tests', () => {
     });
 
     test('should return error when insert fails due to uniqueness', async () => {
-        const uniquenessError: APIError = { name: ERROR_KEYS.MongoError, code: 11000, message: '' };
+        const uniquenessError: core.APIError = { name: core.ERROR_KEYS.MongoError, code: 11000, message: '' };
         when(mockUserModel.create(anything())).thenReject(uniquenessError);
 
         await expect(userService.createUser({} as any))
             .rejects
-            .toEqual(new APIError(400, 'Username is already in use.'));
+            .toEqual(new core.APIError(400, 'Username is already in use.'));
     });
 })

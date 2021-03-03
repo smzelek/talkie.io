@@ -1,19 +1,20 @@
-import * as express from "express";
-import { interfaces, controller, httpPost, } from "inversify-express-utils";
+import { db } from "~db";
+import { ILoginService, IUserService } from "~backend/interfaces";
 import { inject } from "inversify";
-import { TOKENS } from "../tokens";
-import * as db from '../../db';
-import { LoginService, UserService } from "../services";
+import { interfaces, controller, httpPost, } from "inversify-express-utils";
+import { TOKENS } from "~backend/tokens";
+import express from "express";
+import { routes } from '~backend/routes';
 
-@controller("/users")
+@controller('')
 export class UserController implements interfaces.Controller {
 
     constructor(
-        @inject(TOKENS.UserService) private userService: UserService,
-        @inject(TOKENS.LoginService) private loginService: LoginService
+        @inject(TOKENS.UserService) private userService: IUserService,
+        @inject(TOKENS.LoginService) private loginService: ILoginService
     ) { }
 
-    @httpPost("/")
+    @httpPost(routes["/users"])
     private async createUser(req: express.Request<{}, {}, db.user.Schema>, res: express.Response): Promise<db.user.Schema | undefined> {
         const user = await this.userService.createUser(req.body);
         await this.loginService.login(req, res);

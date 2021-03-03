@@ -1,18 +1,18 @@
 import 'reflect-metadata';
-import cors from 'cors';
 import './controllers';
+import { ChatroomService, MongoDbService, LoginService, UserService } from './services';
 import { Container } from "inversify";
-import { TOKENS } from "./tokens";
+import { IChatroomService, IDbService, ILoginService, IUserService } from './interfaces';
 import { InversifyExpressServer } from 'inversify-express-utils';
+import { TOKENS } from "./tokens";
 import bodyParser from 'body-parser';
-import { APIError, toApiError } from './error';
-import express from 'express';
-import { ChatroomService, DbService, IChatroomService, IDbService, ILoginService, IUserService, LoginService, UserService } from './services';
 import cookies from 'cookie-parser';
-import '../core';
+import cors from 'cors';
+import express from 'express';
+import { core } from '~core';
 
 const IOC = new Container();
-IOC.bind<IDbService>(TOKENS.DbService).to(DbService).inSingletonScope();
+IOC.bind<IDbService>(TOKENS.DbService).to(MongoDbService).inSingletonScope();
 IOC.bind<IUserService>(TOKENS.UserService).to(UserService);
 IOC.bind<ILoginService>(TOKENS.LoginService).to(LoginService);
 IOC.bind<IChatroomService>(TOKENS.ChatroomService).to(ChatroomService);
@@ -37,8 +37,8 @@ app.use(function (err: Error, _: any, res: express.Response, __: any) {
     if (process.env.NODE_ENV !== 'test') {
         console.error(err.stack);
     }
-    const apiError = toApiError(err);
-    res.status(apiError.code).send(APIError.toResponse(apiError));
+    const apiError = core.APIError.fromError(err);
+    res.status(apiError.code).send(core.APIError.toResponse(apiError));
 });
 
 if (process.env.NODE_ENV !== 'test') {

@@ -1,11 +1,13 @@
-import { combineReducers, Reducer, CombinedState, AnyAction } from 'redux';
-import { FeatureKeys } from './feature-keys';
-import * as features from './features';
+import { combineReducers, } from 'redux';
 import { connectRouter } from 'connected-react-router'
 import { History } from 'history';
+import * as features from './features';
+import { mustHaveAllFeatureKeys } from './schemas';
 
 export const createRootReducer = (history: History<unknown>) => combineReducers({
     router: connectRouter(history),
-    [FeatureKeys.login]: features.loginReducer,
-    [FeatureKeys.chatroom]: features.chatroomReducer
+    ...mustHaveAllFeatureKeys({
+        login: features.loginReducer,
+        chatroom: features.chatroomReducer
+    })
 });

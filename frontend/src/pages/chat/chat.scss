@@ -1,0 +1,103 @@
+.chatroom {
+    display: flex;
+    flex-direction: row;
+
+    &__window {
+        width: 100%;
+    }
+
+    .no-chatroom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    &__sidebar {
+        min-width: 400px;
+        width: 400px;
+        display: flex;
+        border-right: 1px solid #e7e7e7;
+        flex-direction: column;
+    }
+
+    .sidebar__list {
+        overflow: auto;
+    }
+
+    .sidebar__header {
+        padding: 20px;
+        background: #f3f3f3;
+        border-bottom: 1px solid gainsboro;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        .identifiers {
+            h1 {
+                font-weight: bold;
+            }
+
+            h2 {
+                font-size: 13px;
+            }
+
+            .name {
+                font-size: 14px;
+                font-weight: bold;
+                filter: saturate(5.1) contrast(0.3);
+            }
+        }
+
+        .actions {
+            button {
+                border: none;
+                background: none;
+                text-decoration: underline;
+                color: cadetblue;
+
+                &:hover,
+                &:focus {
+                    cursor: pointer;
+                    color: #4c4cbf;
+                }
+            }
+        }
+    }
+
+    .sidebar__list {
+        overflow: auto;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        padding-inline-start: 0;
+
+        a {
+            text-decoration: none;
+        }
+
+        .new-room-option {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+
+            a {
+                text-decoration: underline;
+                color: cadetblue;
+
+                &:hover,
+                &:focus {
+                    cursor: pointer;
+                    color: #4c4cbf;
+                }
+            }
+        }
+    }
+}
+
+#root,
+#container,
+.chatroom {
+    height: 100%;
+}

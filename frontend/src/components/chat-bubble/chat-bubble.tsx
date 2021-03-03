@@ -1,5 +1,5 @@
 import React from "react";
-import { stringToColor } from "../../utils/string-to-color";
+import { stringToColor } from "~frontend/utils";
 import './chat-bubble.scss';
 
 export interface ChatBubbleProps {

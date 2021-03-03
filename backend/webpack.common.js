@@ -12,6 +12,11 @@ module.exports = {
     externals: [nodeExternals()],
     resolve: {
         extensions: ['.ts', '.js'],
+        alias: {
+            "~db": path.resolve('db'),
+            "~core": path.resolve('core'),
+            "~backend": path.resolve('backend'),
+        }
     },
     module: {
         rules: [
@@ -23,7 +28,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
     ],
     mode: 'development',
     devtool: 'inline-source-map',

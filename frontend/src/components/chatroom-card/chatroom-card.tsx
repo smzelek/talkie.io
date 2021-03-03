@@ -1,8 +1,6 @@
 import React from "react";
+import { idToTimeStamp, stringToColor, timestampToTimeAgo } from "~frontend/utils";
 import './chatroom-card.scss';
-import { idToTimeStamp } from "../../utils/id-to-timestamp";
-import { stringToColor } from "../../utils/string-to-color";
-import { timestampToTimeAgo } from "../../utils/timestamp-to-time-ago";
 
 export interface ChatroomCardProps {
     name: string;

@@ -1,25 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { ThunkDispatch } from "redux-thunk";
-import { ChatroomMessage } from "../../../../core";
-import actions from "../../store/actions";
-import { RootSchema } from "../../store/schemas";
-import selectors from "../../store/selectors";
-import { ChatBubble } from "../chat-bubble/chat-bubble";
+import { core } from "~core";
+import { db } from "~db";
+import { ChatBubble } from "~frontend/components/chat-bubble/chat-bubble";
+import { actions, RootSchema, selectors } from "~frontend/store";
+import { ThunkDispatchProp } from "~frontend/utils";
 import './chatroom.scss';
-import * as db from '../../../../db';
 
 export interface ChatroomProps {
-    messages?: ChatroomMessage[];
+    messages?: core.ChatroomMessage[];
     loadingMessages: boolean;
     sendingMessage: boolean;
     sentMessage: boolean;
     currentUser?: db.user.Schema;
-}
-
-interface ThunkDispatchProp {
-    dispatch: ThunkDispatch<RootSchema, {}, any>;
 }
 
 interface RouteParams {
@@ -30,7 +24,7 @@ interface ChatroomState {
     message: string;
 }
 
-export class Chatroom extends React.Component<RouteComponentProps<RouteParams> & ChatroomProps & ThunkDispatchProp, ChatroomState> {
+export class _Chatroom extends React.Component<RouteComponentProps<RouteParams> & ChatroomProps & ThunkDispatchProp, ChatroomState> {
     constructor(props: RouteComponentProps<RouteParams> & ChatroomProps & ThunkDispatchProp) {
         super(props);
         this.state = { message: '' };
@@ -88,4 +82,4 @@ const mapStateToProps = (state: RootSchema): ChatroomProps => {
     };
 };
 
-export default connect(mapStateToProps)(Chatroom);
+export const Chatroom = connect(mapStateToProps)(_Chatroom);

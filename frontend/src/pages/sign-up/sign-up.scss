@@ -1,0 +1,66 @@
+.sign-up {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .welcome-card {
+        padding: 40px;
+        background: #f3f3f3;
+        border: 1px solid gainsboro;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        a {
+            text-decoration: underline;
+            color: cadetblue;
+
+            &:hover,
+            &:focus {
+                cursor: pointer;
+                color: #4c4cbf;
+            }
+        }
+
+        h1 {
+            font-size: 26px;
+
+            .app-name {
+                font-weight: bold;
+            }
+        }
+
+        h2 {
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input {
+            display: block;
+        }
+
+        button {
+            margin-top: 20px;
+            background: #1480ef;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            padding: 5px 13px;
+            &:hover,
+            &:focus {
+                background: #1472ff;
+                cursor: pointer;
+            }
+        }
+    }
+}

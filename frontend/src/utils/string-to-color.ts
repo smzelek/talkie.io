@@ -1,3 +1,17 @@
+export const stringToColor = (s?: string): string => {
+    if (!s) return DEFAULT_COLOR;
+
+    const hash = Array.from(s.substring(0, 5))
+        .reduce((acc, cur) => {
+            acc = cur.charCodeAt(0) + ((acc << 5) - acc);
+            return (acc & acc);
+        }, 0);
+
+    const asIndex = ((hash % COLOR_PALETTE.length) + COLOR_PALETTE.length) % COLOR_PALETTE.length
+
+    return COLOR_PALETTE[asIndex];
+};
+
 const COLOR_PALETTE: string[] = [
     "#e51c23",
     "#e91e63",
@@ -18,17 +32,3 @@ const COLOR_PALETTE: string[] = [
 ];
 
 const DEFAULT_COLOR = 'black';
-
-export const stringToColor = (s?: string): string => {
-    if (!s) return DEFAULT_COLOR;
-
-    const hash = Array.from(s.substring(0, 5))
-        .reduce((acc, cur) => {
-            acc = cur.charCodeAt(0) + ((acc << 5) - acc);
-            return (acc & acc);
-        }, 0);
-
-    const asIndex = ((hash % COLOR_PALETTE.length) + COLOR_PALETTE.length) % COLOR_PALETTE.length
-
-    return COLOR_PALETTE[asIndex];
-};

@@ -17,6 +17,9 @@ module.exports = {
             "react": "preact/compat",
             "react-dom": "preact/compat",
             "lodash.isequalwith": path.resolve('frontend/src/utils/mock-is-equal-with.js'),
+            "~db": path.resolve('db'),
+            "~core": path.resolve('core'),
+            "~frontend": path.resolve('frontend/src'),
         }
     },
     module: {

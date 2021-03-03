@@ -1,9 +1,9 @@
-import { ChatroomMessage, ChatroomWithInfo } from '../../../../../core';
-import { AsyncActionState } from "../../../utils/async-action-state";
+import { core } from "~core";
+import { AsyncActionState } from "~frontend/utils";
 
 export interface ChatroomSchema {
-    chatrooms?: ChatroomWithInfo[];
-    messages?: ChatroomMessage[];
+    chatrooms?: core.ChatroomWithInfo[];
+    messages?: core.ChatroomMessage[];
     loading: AsyncActionState;
     loadingMessages: AsyncActionState;
     sendingMessage: AsyncActionState;

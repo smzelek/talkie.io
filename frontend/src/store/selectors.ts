@@ -1,7 +1,8 @@
-import chatroomSelector from './features/chatroom/chatroom.selector';
-import loginSelector from './features/login/login.selector';
+import { debug } from 'webpack';
+import * as features from './features';
+import { mustHaveAllFeatureKeys } from './schemas';
 
-export default {
-    login: loginSelector,
-    chatroom: chatroomSelector
-};
+export const selectors = mustHaveAllFeatureKeys({
+    login: features.loginSelectors,
+    chatroom: features.chatroomSelectors
+});

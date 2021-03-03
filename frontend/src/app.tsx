@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { store, history } from './store/store';
-import LoginPage from './pages/login';
-import ChatPage from './pages/chat';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import './global.scss';
-import SignUpPage from './pages/sign-up';
+import { ChatPage, LoginPage, SignUpPage } from '~frontend/pages';
+import { store, history } from './store';
 
 class App extends React.Component<{}, {}> {
 
@@ -23,7 +21,7 @@ class App extends React.Component<{}, {}> {
                         <Route path="/login" render={() => (
                             <LoginPage />
                         )} />
-                         <Route path="/sign-up" render={() => (
+                        <Route path="/sign-up" render={() => (
                             <SignUpPage />
                         )} />
                         <Route path="/chat" component={ChatPage} />
@@ -35,7 +33,6 @@ class App extends React.Component<{}, {}> {
             </ConnectedRouter>
         </Provider>);
     }
-
 }
 
 ReactDOM.render(<App />, document.querySelector('#root')!);

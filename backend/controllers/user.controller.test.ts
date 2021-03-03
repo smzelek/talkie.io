@@ -1,10 +1,10 @@
 import { anything, instance, mock, when } from 'ts-mockito';
-import { app, IOC } from '../main';
-import { TOKENS } from '../tokens';
-import * as db from '../../db';
 import supertest from 'supertest';
-import { APIError, ERROR_KEYS } from '../error';
-import { ILoginService, IUserService } from '../services';
+import { ILoginService, IUserService } from '~backend/interfaces';
+import { IOC, app } from '~backend/main';
+import { TOKENS } from '~backend/tokens';
+import { db } from '~db';
+import { core } from '~core';
 
 describe('User Controller Tests', () => {
     let mockUserService: IUserService;
@@ -30,7 +30,7 @@ describe('User Controller Tests', () => {
     });
 
     test('should return error when create fails', async () => {
-        const validationError: APIError = { name: ERROR_KEYS.ValidationError, code: 1, message: 'Reason for error.' };
+        const validationError: core.APIError = { name: core.ERROR_KEYS.ValidationError, code: 1, message: 'Reason for error.' };
         when(mockUserService.createUser(anything())).thenReject(validationError);
 
         const res = await supertest(app)

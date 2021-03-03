@@ -10,7 +10,21 @@
         "strict": true,
         "target": "es6",
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "paths": {
+            "~db": [
+                "./db"
+            ],
+            "~core": [
+                "./core"
+            ],
+            "~backend*": [
+                "./backend*"
+            ],
+            "~frontend*": [
+                "./frontend/src*"
+            ]
+        },
     },
     "exclude": [
         "node_modules"

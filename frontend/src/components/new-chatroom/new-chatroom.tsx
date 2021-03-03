@@ -1,24 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import actions from "../../store/actions";
-import { RootSchema } from "../../store/schemas";
-import selectors from "../../store/selectors";
+import { actions, RootSchema, selectors } from "~frontend/store";
+import { ThunkDispatchProp } from "~frontend/utils";
 import './new-chatroom.scss';
 
 export interface NewChatroomProps {
     creatingRoom: boolean;
 }
 
-interface ThunkDispatchProp {
-    dispatch: ThunkDispatch<RootSchema, {}, any>;
-}
-
 interface NewChatroomState {
     name: string;
 }
 
-export class NewChatroom extends React.Component<NewChatroomProps & ThunkDispatchProp, NewChatroomState> {
+class _NewChatroom extends React.Component<NewChatroomProps & ThunkDispatchProp, NewChatroomState> {
     constructor(props: NewChatroomProps & ThunkDispatchProp) {
         super(props);
         this.state = { name: '' };
@@ -56,4 +50,4 @@ const mapStateToProps = (state: RootSchema): NewChatroomProps => {
     };
 };
 
-export default connect(mapStateToProps)(NewChatroom);
+export const NewChatroom = connect(mapStateToProps)(_NewChatroom);

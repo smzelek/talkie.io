@@ -1,39 +1,32 @@
 import express from "express";
 import { inject, injectable } from "inversify";
-import { LoginRequest } from "../../core";
-import * as db from '../../db';
-import { APIError } from "../error";
-import { TOKENS } from "../tokens";
-import { UserService } from "./user.service";
-
-export interface ILoginService {
-    currentUser: (req: express.Request, res: express.Response) => Promise<db.user.Schema | undefined>;
-    login: (req: express.Request<{}, {}, LoginRequest>, res: express.Response) => Promise<db.user.Schema | undefined>;
-    logout: (req: express.Request, res: express.Response) => void;
-}
+import { db } from '~db';
+import { core } from "~core";
+import { ILoginService, IUserService } from "~backend/interfaces";
+import { TOKENS } from "~backend/tokens";
 
 @injectable()
 export class LoginService implements ILoginService {
     private static COOKIE_NAME = 'talkieio_user';
     private static MINUTES_60_IN_MS = 60 * 60 * 1000;
-    constructor(@inject(TOKENS.UserService) private userService: UserService) { }
+    constructor(@inject(TOKENS.UserService) private userService: IUserService) { }
 
     async currentUser(req: express.Request, res: express.Response): Promise<db.user.Schema | undefined> {
         const userCookie = req.cookies[LoginService.COOKIE_NAME];
         if (!userCookie) {
-            throw new APIError(401, 'User is not logged in.')
+            throw new core.APIError(401, 'User is not logged in.')
         }
         const userData = await this.userService.getUserById(userCookie);
         if (!userData) {
-            throw new APIError(403, 'User does not exist.')
+            throw new core.APIError(403, 'User does not exist.')
         }
         return userData;
     }
 
-    async login(req: express.Request<{}, {}, LoginRequest>, res: express.Response): Promise<db.user.Schema | undefined> {
+    async login(req: express.Request<{}, {}, core.LoginRequest>, res: express.Response): Promise<db.user.Schema | undefined> {
         const user = await this.userService.getUserByUsername(req.body.username);
         if (!user) {
-            throw new APIError(403, 'User does not exist.')
+            throw new core.APIError(403, 'User does not exist.')
         }
         this.loginWithCookie(res, user._id);
         return user;

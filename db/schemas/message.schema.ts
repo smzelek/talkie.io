@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose'
+import mongoose from 'mongoose'
 import * as user from "./user.schema";
 import * as chatroom from "./chatroom.schema";
 

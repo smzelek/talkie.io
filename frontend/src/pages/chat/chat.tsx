@@ -1,33 +1,23 @@
 import './chat.scss';
-import { ChatroomCard } from '../components/chatroom-card/chatroom-card';
-import { ChatroomWithInfo } from '../../../core';
 import { connect } from 'react-redux';
-import { idToTimeStamp } from '../utils/id-to-timestamp';
+import { core } from '~core';
+import { db } from '~db';
 import { Link, NavLink, Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { push } from 'connected-react-router';
-import { RootSchema } from '../store/schemas';
-import { stringToColor } from '../utils/string-to-color';
-import { ThunkDispatch } from 'redux-thunk';
-import * as db from '../../../db';
-import actions from '../store/actions';
-import Chatroom from '../components/chatroom/chatroom';
-import NewChatroom from '../components/new-chatroom/new-chatroom';
 import React from "react";
-import selectors from '../store/selectors';
+import { idToTimeStamp, stringToColor, ThunkDispatchProp } from '~frontend/utils';
+import { Chatroom, ChatroomCard, NewChatroom } from '~frontend/components';
+import { actions, RootSchema, selectors } from '~frontend/store';
 
 interface ChatProps {
     currentUser?: db.user.Schema;
-    chatrooms?: ChatroomWithInfo[];
-}
-
-interface ThunkDispatchProp {
-    dispatch: ThunkDispatch<RootSchema, {}, any>;
+    chatrooms?: core.ChatroomWithInfo[];
 }
 
 interface ChatState {
 }
 
-class ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComponentProps<{}>, ChatState> {
+class _ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComponentProps<{}>, ChatState> {
     constructor(props: ChatProps & ThunkDispatchProp & RouteComponentProps<{}>) {
         super(props);
         this.state = {};
@@ -44,7 +34,7 @@ class ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComp
         this.props.dispatch(actions.login.logout$());
     }
 
-    sortChatrooms(c1: ChatroomWithInfo, c2: ChatroomWithInfo) {
+    sortChatrooms(c1: core.ChatroomWithInfo, c2: core.ChatroomWithInfo) {
         if (!c1.mostRecentMessage && c1.user_createdby === this.props.currentUser?._id) {
             return -1;
         }
@@ -110,4 +100,4 @@ const mapStateToProps = (state: RootSchema): ChatProps => {
     };
 };
 
-export default connect(mapStateToProps)(ChatPage);
+export const ChatPage = connect(mapStateToProps)(_ChatPage);

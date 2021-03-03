@@ -1,26 +1,18 @@
+import { core } from "~core";
+import { db } from "~db";
+import { IChatroomService, IDbService, ILoginService } from "~backend/interfaces";
 import { inject, injectable } from "inversify";
-import { ChatroomMessage, ChatroomWithInfo, GetAllChatrooms, GetLatestMessagesForChatroom, NewMessageRequest, NewRoomRequest } from '../../core'
-import { TOKENS } from "../tokens";
-import { DbService } from "./db.service";
-import * as db from '../../db';
-import { APIError } from "../error";
-import { LoginService } from "./login.service";
+import { TOKENS } from "~backend/tokens";
 import express from "express";
-
-export interface IChatroomService {
-    getAll: () => Promise<GetAllChatrooms | undefined>;
-    getLatestMessages: (id: db.chatroom.Schema['_id']) => Promise<GetLatestMessagesForChatroom | undefined>;
-    newMessage: (req: express.Request<{ id: string }, {}, NewMessageRequest>, res: express.Response) => Promise<db.message.Schema>;
-}
 
 @injectable()
 export class ChatroomService implements IChatroomService {
     constructor(
-        @inject(TOKENS.DbService) private dbService: DbService,
-        @inject(TOKENS.LoginService) private loginService: LoginService
+        @inject(TOKENS.DbService) private dbService: IDbService,
+        @inject(TOKENS.LoginService) private loginService: ILoginService
     ) { }
 
-    async getAll(): Promise<GetAllChatrooms | undefined> {
+    async getAll(): Promise<core.GetAllChatrooms | undefined> {
         const Chatroom = await this.dbService.Chatrooms();
 
         const allChatroomsWithLatestMessage = await Chatroom.aggregate([
@@ -75,7 +67,7 @@ export class ChatroomService implements IChatroomService {
             }
         ]);
 
-        return allChatroomsWithLatestMessage.map((c): ChatroomWithInfo => ({
+        return allChatroomsWithLatestMessage.map((c): core.ChatroomWithInfo => ({
             _id: c._id,
             name: c.name,
             user_createdby: c.user_createdby,
@@ -87,11 +79,11 @@ export class ChatroomService implements IChatroomService {
         }));
     }
 
-    async getLatestMessages(id: db.chatroom.Schema['_id']): Promise<GetLatestMessagesForChatroom | undefined> {
+    async getLatestMessages(id: db.chatroom.Schema['_id']): Promise<core.GetLatestMessagesForChatroom | undefined> {
         const Chatroom = await this.dbService.Chatrooms();
         const chatroom = await Chatroom.findById(id);
         if (!chatroom) {
-            throw new APIError(404, 'Chatroom does not exist.');
+            throw new core.APIError(404, 'Chatroom does not exist.');
         }
 
         const Message = await this.dbService.Messages();
@@ -101,21 +93,21 @@ export class ChatroomService implements IChatroomService {
             .sort({ _id: -1 })
             .populate('user_sentby');
 
-        return messages.map((m): ChatroomMessage => ({
+        return messages.map((m): core.ChatroomMessage => ({
             _id: m._id,
             content: m.content,
             user_sentby: m.user_sentby,
         }));
     }
 
-    async newMessage(req: express.Request<{ id: string }, {}, NewMessageRequest>, res: express.Response): Promise<db.message.Schema> {
+    async newMessage(req: express.Request<{ id: string }, {}, core.NewMessageRequest>, res: express.Response): Promise<db.message.Schema> {
         const currentUser = await this.loginService.currentUser(req, res);
 
         const Chatrooms = await this.dbService.Chatrooms();
         const chatroom = await Chatrooms.findById(req.params.id);
 
         if (!chatroom) {
-            throw new APIError(404, 'Chatroom does not exist.');
+            throw new core.APIError(404, 'Chatroom does not exist.');
         }
 
         const Messages = await this.dbService.Messages();
@@ -129,7 +121,7 @@ export class ChatroomService implements IChatroomService {
         return ChatroomService.messageDocumentToSchema(message);
     }
 
-    async newRoom(req: express.Request<{}, {}, NewRoomRequest>, res: express.Response): Promise<db.chatroom.Schema> {
+    async newRoom(req: express.Request<{}, {}, core.NewRoomRequest>, res: express.Response): Promise<db.chatroom.Schema> {
         const currentUser = await this.loginService.currentUser(req, res);
 
         const Chatrooms = await this.dbService.Chatrooms();
