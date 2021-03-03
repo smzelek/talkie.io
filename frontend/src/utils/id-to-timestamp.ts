@@ -1,4 +1,4 @@
-export const idToTimeStamp = (id?: string) => {
+export const idToTimeStamp = (id?: string): number => {
     if (!id) {
         return 0;
     }

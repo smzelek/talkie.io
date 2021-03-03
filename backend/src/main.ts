@@ -33,7 +33,7 @@ server.setConfig((app) => {
 });
 
 const app = server.build();
-app.use(function (err: Error, _: any, res: express.Response, __: any) {
+app.use(function (err: Error, _: any, res: express.Response) {
     if (process.env.NODE_ENV !== 'test') {
         console.error(err.stack);
     }

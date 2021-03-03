@@ -7,9 +7,9 @@ import './global.scss';
 import { ChatPage, LoginPage, SignUpPage } from '~frontend/pages';
 import { store, history } from './store';
 
-class App extends React.Component<{}, {}> {
+class App extends React.Component {
 
-    constructor(props: {}) {
+    constructor(props: Record<string, unknown>) {
         super(props);
     }
 

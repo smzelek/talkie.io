@@ -1,5 +1,6 @@
 import { db } from "~db";
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const getRoutes = (baseUrl: string) => ({
     '/login': `${baseUrl}/login`,
     '/users': `${baseUrl}/users`,

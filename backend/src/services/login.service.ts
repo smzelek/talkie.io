@@ -11,7 +11,7 @@ export class LoginService implements ILoginService {
     private static MINUTES_60_IN_MS = 60 * 60 * 1000;
     constructor(@inject(TOKENS.UserService) private userService: IUserService) { }
 
-    async currentUser(req: express.Request, res: express.Response): Promise<db.user.Schema | undefined> {
+    async currentUser(req: express.Request<Record<string, unknown>, Record<string, unknown>, unknown>): Promise<db.user.Schema | undefined> {
         const userCookie = req.cookies[LoginService.COOKIE_NAME];
         if (!userCookie) {
             throw new core.APIError(401, 'User is not logged in.')
@@ -23,7 +23,7 @@ export class LoginService implements ILoginService {
         return userData;
     }
 
-    async login(req: express.Request<{}, {}, core.LoginRequest>, res: express.Response): Promise<db.user.Schema | undefined> {
+    async login(req: express.Request<Record<string, unknown>, Record<string, unknown>, core.LoginRequest>, res: express.Response): Promise<db.user.Schema | undefined> {
         const user = await this.userService.getUserByUsername(req.body.username);
         if (!user) {
             throw new core.APIError(403, 'User does not exist.')

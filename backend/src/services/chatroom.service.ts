@@ -100,8 +100,8 @@ export class ChatroomService implements IChatroomService {
         }));
     }
 
-    async newMessage(req: express.Request<{ id: string }, {}, core.NewMessageRequest>, res: express.Response): Promise<db.message.Schema> {
-        const currentUser = await this.loginService.currentUser(req, res);
+    async newMessage(req: express.Request<{ id: string }, Record<string, unknown>, core.NewMessageRequest>): Promise<db.message.Schema> {
+        const currentUser = await this.loginService.currentUser(req);
 
         const Chatrooms = await this.dbService.Chatrooms();
         const chatroom = await Chatrooms.findById(req.params.id);
@@ -121,8 +121,8 @@ export class ChatroomService implements IChatroomService {
         return ChatroomService.messageDocumentToSchema(message);
     }
 
-    async newRoom(req: express.Request<{}, {}, core.NewRoomRequest>, res: express.Response): Promise<db.chatroom.Schema> {
-        const currentUser = await this.loginService.currentUser(req, res);
+    async newRoom(req: express.Request<Record<string, unknown>, Record<string, unknown>, core.NewRoomRequest>): Promise<db.chatroom.Schema> {
+        const currentUser = await this.loginService.currentUser(req);
 
         const Chatrooms = await this.dbService.Chatrooms();
 

@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import { push } from 'react-router-redux';
 import { db } from '~db';
 import { APIService } from '~frontend/services';
-import { RootSchema } from '~frontend/store/schemas';
 import { core } from '~core';
 
 export const CHECK_LOGIN = '[Login] Check Login'
@@ -23,7 +22,7 @@ export const LOGOUT_FAIL = '[Login] Logout';
 
 interface CheckLogin {
     type: typeof CHECK_LOGIN
-};
+}
 
 interface CheckLoginSuccess {
     type: typeof CHECK_LOGIN_SUCCESS
@@ -33,11 +32,11 @@ interface CheckLoginSuccess {
 interface CheckLoginFail {
     type: typeof CHECK_LOGIN_FAIL
     error: core.APIError;
-};
+}
 
 interface SignUp {
     type: typeof SIGN_UP
-};
+}
 
 interface SignUpSuccess {
     type: typeof SIGN_UP_SUCCESS,
@@ -76,8 +75,8 @@ interface LogoutFail {
     error: core.APIError;
 }
 
-const checkLogin$ = (ifLoggedInFn: () => void = () => { }, ifLoggedOutFn: () => void = () => { }) => {
-    return (dispatch: Dispatch, state: RootSchema) => {
+const checkLogin$ = (ifLoggedInFn: () => void = () => ({}), ifLoggedOutFn: () => void = () => ({})) => {
+    return (dispatch: Dispatch): Promise<void> => {
         dispatch(checkLogin());
 
         return APIService.checkLogin()
@@ -115,7 +114,7 @@ const checkLoginFail = (error: core.APIError): LoginActions => {
 };
 
 const signUp$ = (username: db.user.Schema['username'], name: db.user.Schema['name']) => {
-    return (dispatch: Dispatch, state: RootSchema) => {
+    return (dispatch: Dispatch): Promise<void> => {
         dispatch(signUp());
 
         return APIService.signUp(username, name)
@@ -152,7 +151,7 @@ const signUpFail = (error: core.APIError): LoginActions => {
 };
 
 const login$ = (username: db.user.Schema['username']) => {
-    return (dispatch: Dispatch, state: RootSchema) => {
+    return (dispatch: Dispatch): Promise<void> => {
         dispatch(login());
 
         return APIService.login(username)
@@ -189,12 +188,12 @@ const loginFail = (error: core.APIError): LoginActions => {
 };
 
 const logout$ = () => {
-    return (dispatch: Dispatch, state: RootSchema) => {
+    return (dispatch: Dispatch): Promise<void> => {
         dispatch(logout());
 
         return APIService.logout()
             .then(
-                (res) => {
+                () => {
                     dispatch(logoutSuccess());
                     dispatch(push('/login'));
                 },

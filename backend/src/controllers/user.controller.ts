@@ -15,7 +15,7 @@ export class UserController implements interfaces.Controller {
     ) { }
 
     @httpPost(routes["/users"])
-    private async createUser(req: express.Request<{}, {}, db.user.Schema>, res: express.Response): Promise<db.user.Schema | undefined> {
+    private async createUser(req: express.Request<Record<string, unknown>, Record<string, unknown>, db.user.Schema>, res: express.Response): Promise<db.user.Schema | undefined> {
         const user = await this.userService.createUser(req.body);
         await this.loginService.login(req, res);
         res.status(201);

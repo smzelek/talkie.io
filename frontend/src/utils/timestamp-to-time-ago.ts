@@ -21,11 +21,11 @@ type Threshold = {
 const ORDERED_THRESHOLDS: Threshold[] = [
   {
     useUntil: 1 * MINUTES,
-    mapping: (_: number) => 'just now'
+    mapping: () => 'just now'
   },
   {
     useUntil: 5 * MINUTES,
-    mapping: (_: number) => `a few minutes ago`
+    mapping: () => `a few minutes ago`
   },
   {
     useUntil: 1 * HOURS,

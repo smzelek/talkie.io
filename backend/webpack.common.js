@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
-    entry: './backend/main.ts',
+    entry: './backend/src/main.ts',
     output: {
         path: path.resolve('backend/dist'),
         filename: 'server.js',
@@ -15,7 +15,7 @@ module.exports = {
         alias: {
             "~db": path.resolve('db'),
             "~core": path.resolve('core'),
-            "~backend": path.resolve('backend'),
+            "~backend": path.resolve('backend/src'),
         }
     },
     module: {

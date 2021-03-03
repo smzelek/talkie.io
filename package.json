@@ -8,7 +8,10 @@
         "compile:server": "webpack --config backend/webpack.prod.js",
         "stats:app": "webpack --config frontend/webpack.stats.js",
         "initialize-db": "ts-node db/init/init.ts",
-        "test": "dotenv -e .test.env jest -- --forceExit"
+        "test": "dotenv -e .test.env jest -- --forceExit",
+        "lint:app": "eslint frontend/src --fix",
+        "lint:backend": "eslint backend/src --fix",
+        "lint": "eslint . --fix"
     },
     "engines": {
         "node": "12.18.2",
@@ -48,11 +51,15 @@
         "@types/react-router-redux": "^5.0.18",
         "@types/redux-devtools-extension": "^2.13.2",
         "@types/supertest": "^2.0.10",
+        "@typescript-eslint/eslint-plugin": "^4.16.1",
+        "@typescript-eslint/parser": "^4.16.1",
         "clean-webpack-plugin": "^3.0.0",
         "compression-webpack-plugin": "^4.0.0",
         "copy-webpack-plugin": "^6.0.2",
         "css-loader": "3.4.2",
         "enzyme": "^3.11.0",
+        "eslint": "^7.21.0",
+        "eslint-plugin-react": "^7.22.0",
         "faker": "^5.4.0",
         "fibers": "^5.0.0",
         "file-loader": "^6.0.0",

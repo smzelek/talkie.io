@@ -1,4 +1,3 @@
-import { debug } from 'webpack';
 import * as features from './features';
 import { mustHaveAllFeatureKeys } from './schemas';
 

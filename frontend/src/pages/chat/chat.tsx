@@ -14,17 +14,13 @@ interface ChatProps {
     chatrooms?: core.ChatroomWithInfo[];
 }
 
-interface ChatState {
-}
-
-class _ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComponentProps<{}>, ChatState> {
-    constructor(props: ChatProps & ThunkDispatchProp & RouteComponentProps<{}>) {
+class _ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteComponentProps> {
+    constructor(props: ChatProps & ThunkDispatchProp & RouteComponentProps) {
         super(props);
-        this.state = {};
     }
 
     componentDidMount() {
-        this.props.dispatch(actions.login.checkLogin$(() => { }, () => {
+        this.props.dispatch(actions.login.checkLogin$(() => ({ }), () => {
             this.props.dispatch(push('/login'));
         }));
         this.props.dispatch(actions.chatroom.load$());

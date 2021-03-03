@@ -1,6 +1,6 @@
 export class AsyncActionState {
     readonly inProgress: boolean = AsyncActionState.initialState.inProgress;
-    readonly error: any = AsyncActionState.initialState.error;
+    readonly error: unknown = AsyncActionState.initialState.error;
     readonly success: boolean = AsyncActionState.initialState.success;
 
     static initialState: AsyncActionState = {
@@ -15,13 +15,13 @@ export class AsyncActionState {
         success: false,
     };
 
-    static successState = {
+    static successState: AsyncActionState = {
         inProgress: false,
         error: null,
         success: true,
     };
 
-    static errorState = (error: any) => ({
+    static errorState = (error: unknown): AsyncActionState => ({
         inProgress: false,
         error,
         success: false,

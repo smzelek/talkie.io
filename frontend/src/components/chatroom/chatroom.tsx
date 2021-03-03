@@ -18,7 +18,7 @@ export interface ChatroomProps {
 
 interface RouteParams {
     id: string;
-};
+}
 
 interface ChatroomState {
     message: string;
@@ -30,11 +30,11 @@ export class _Chatroom extends React.Component<RouteComponentProps<RouteParams> 
         this.state = { message: '' };
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.props.dispatch(actions.chatroom.loadRecentMessages$(this.props.match.params.id));
     }
 
-    componentDidUpdate(prevProps: RouteComponentProps<RouteParams> & ChatroomProps & ThunkDispatchProp) {
+    componentDidUpdate(prevProps: RouteComponentProps<RouteParams> & ChatroomProps & ThunkDispatchProp): void {
         if (this.props.match.params.id !== prevProps.match.params.id) {
             this.props.dispatch(actions.chatroom.loadRecentMessages$(this.props.match.params.id));
         }
@@ -44,15 +44,15 @@ export class _Chatroom extends React.Component<RouteComponentProps<RouteParams> 
         }
     }
 
-    onMessageInput(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    onMessageInput(event: React.ChangeEvent<HTMLTextAreaElement>): void {
         this.setState({ message: event.target.value });
     }
 
-    sendMessage() {
+    sendMessage(): void {
         this.props.dispatch(actions.chatroom.sendMessage$(this.props.match.params.id, this.state.message))
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <section className="chat">
                 <main className="chat__view">
@@ -70,7 +70,6 @@ export class _Chatroom extends React.Component<RouteComponentProps<RouteParams> 
         )
     }
 }
-
 
 const mapStateToProps = (state: RootSchema): ChatroomProps => {
     return {

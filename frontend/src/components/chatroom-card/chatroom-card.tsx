@@ -11,12 +11,12 @@ export interface ChatroomCardProps {
     }
 }
 
-export class ChatroomCard extends React.Component<ChatroomCardProps, {}> {
+export class ChatroomCard extends React.Component<ChatroomCardProps> {
     constructor(props: ChatroomCardProps) {
         super(props);
     }
 
-    render() {
+    render(): JSX.Element {
         const firstLetter = this.props.name.charAt(0).toUpperCase();
         return (
             <article className="chatroom__card">

@@ -3,14 +3,14 @@ export class APIError extends Error {
         super();
     }
 
-    static toResponse(err: APIError) {
+    static toResponse(err: APIError): { code: number, message: string } {
         return {
             code: err.code,
             message: err.message
         };
     }
 
-    static fromError = (err: Error) => {
+    static fromError = (err: Error): APIError => {
         if (err instanceof APIError) {
             return err;
         }

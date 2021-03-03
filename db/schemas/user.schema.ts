@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 interface _Schema {
     username: string;
     name: string;
-};
+}
 
 export interface Schema extends _Schema {
     _id?: string;

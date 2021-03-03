@@ -19,7 +19,7 @@
                 "./core"
             ],
             "~backend*": [
-                "./backend*"
+                "./backend/src*"
             ],
             "~frontend*": [
                 "./frontend/src*"
