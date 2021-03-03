@@ -5,6 +5,7 @@
         "start:app": "webpack-dev-server --open --config frontend/webpack.dev.js",
         "start:server": "npm-run-all --parallel server:build server:serve",
         "compile:app": "webpack --config frontend/webpack.prod.js",
+        "compile:server": "webpack --config backend/webpack.prod.js",
         "stats:app": "webpack --config frontend/webpack.stats.js",
         "server:build": "webpack --config backend/webpack.dev.js --watch",
         "server:serve": "nodemon ./backend/dist/server.js --watch backend/dist",
