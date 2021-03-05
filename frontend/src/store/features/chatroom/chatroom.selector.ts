@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { RootSchema } from "../../schemas";
+import { RootSchema } from "~frontend/store/schemas";
 
 const chatroomState = (state: RootSchema) => state.chatroom;
 
@@ -11,7 +11,7 @@ const messages = createSelector(chatroomState, (state) => state.messages);
 const chatroomId = createSelector(chatroomState, (state) => state.chatroomId);
 const sendingMessage = createSelector(chatroomState, (state) => state.sendingMessage);
 
-export default {
+export const chatroomSelectors = {
     chatrooms,
     chatroomId,
     loading,

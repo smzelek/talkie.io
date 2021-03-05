@@ -1,9 +1,5 @@
-import * as user from './schemas/user.schema';
-import * as chatroom from './schemas/chatroom.schema';
-import * as message from './schemas/message.schema';
+import * as db from './db';
 
 export {
-    user,
-    chatroom,
-    message
+    db
 };

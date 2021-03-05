@@ -1,9 +1,10 @@
-import { FeatureKeys } from './feature-keys';
-import { ChatroomSchema } from './features/chatroom/chatroom.schema';
+import { ChatroomSchema } from './features';
 import { LoginSchema } from './features/login/login.schema';
-export * from './features/login/login.schema';
+
+type FeatureKeyObject = { [FEATURE in keyof RootSchema]: unknown }
+export const mustHaveAllFeatureKeys = <T extends FeatureKeyObject>(t: T): T => t;
 
 export interface RootSchema {
-    [FeatureKeys.login]: LoginSchema;
-    [FeatureKeys.chatroom]: ChatroomSchema;
+    login: LoginSchema;
+    chatroom: ChatroomSchema;
 }

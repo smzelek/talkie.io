@@ -1,7 +1,7 @@
-import chatroomAction from './features/chatroom/chatroom.action';
-import loginAction from './features/login/login.action';
+import * as features from './features';
+import { mustHaveAllFeatureKeys } from './schemas';
 
-export default {
-    login: loginAction,
-    chatroom: chatroomAction
-};
+export const actions = mustHaveAllFeatureKeys({
+    login: features.loginActions,
+    chatroom: features.chatroomActions
+});

@@ -1,11 +1,10 @@
-import * as db from '../../../../../db';
-import { APIError } from '../../../../../backend/error';
 import { Dispatch } from 'redux';
-import { RootSchema } from '../../schemas';
-import { APIService } from '../../../services/api.service';
-import { ChatroomMessage, ChatroomWithInfo } from '../../../../../core';
 import { ThunkDispatch } from 'redux-thunk';
 import { push } from 'connected-react-router';
+import { core } from '~core';
+import { db } from '~db';
+import { RootSchema } from '~frontend/store/schemas';
+import { APIService } from '~frontend/services';
 
 export const LOAD = '[Chatrooms] Load';
 export const LOAD_SUCCESS = '[Chatrooms] Load Success';
@@ -25,17 +24,17 @@ export const SEND_MESSAGE_FAIL = '[Chatrooms] Send Message Fail';
 
 interface Load {
     type: typeof LOAD
-};
+}
 
 interface LoadSuccess {
     type: typeof LOAD_SUCCESS
-    chatrooms: ChatroomWithInfo[]
+    chatrooms: core.ChatroomWithInfo[]
 }
 
 interface LoadFail {
     type: typeof LOAD_FAIL
-    error: APIError;
-};
+    error: core.APIError;
+}
 
 interface Create {
     type: typeof CREATE,
@@ -48,87 +47,72 @@ interface CreateSuccess {
 
 interface CreateFail {
     type: typeof CREATE_FAIL,
-    error: APIError
+    error: core.APIError
 }
 
 interface LoadRecentMessages {
     type: typeof LOAD_RECENT_MESSAGES,
     id: db.chatroom.Schema['_id']
-};
+}
 
 interface LoadRecentMessagesSuccess {
     type: typeof LOAD_RECENT_MESSAGES_SUCCESS,
-    messages: ChatroomMessage[]
-};
+    messages: core.ChatroomMessage[]
+}
 
 interface LoadRecentMessagesFail {
     type: typeof LOAD_RECENT_MESSAGES_FAIL,
-    error: APIError
-};
+    error: core.APIError
+}
 
 interface SendMessage {
     type: typeof SEND_MESSAGE
-};
+}
 
 interface SendMessageSuccess {
     type: typeof SEND_MESSAGE_SUCCESS,
     message: db.message.Schema
-};
+}
 
 interface SendMessageFail {
     type: typeof SEND_MESSAGE_FAIL,
-    error: APIError
-};
+    error: core.APIError
+}
 
-
-export type ChatroomActions =
-    | Load
-    | LoadSuccess
-    | LoadFail
-    | Create
-    | CreateSuccess
-    | CreateFail
-    | LoadRecentMessages
-    | LoadRecentMessagesSuccess
-    | LoadRecentMessagesFail
-    | SendMessage
-    | SendMessageSuccess
-    | SendMessageFail;
-
-export const load$ = () => {
-    return (dispatch: Dispatch, getState: () => RootSchema) => {
+const load$ = () => {
+    return (dispatch: Dispatch): Promise<void> => {
         dispatch(load());
 
         return APIService.getAllChatrooms()
             .then(
-                (res) => dispatch(loadSuccess(res)),
-                (err) => dispatch(loadFail(err))
+                (res) => { dispatch(loadSuccess(res)) },
+                (err) => { dispatch(loadFail(err)) }
             );
     };
 };
 
-export const load = (): ChatroomActions => {
+const load = (): ChatroomActions => {
     return {
         type: LOAD,
     }
 };
 
-export const loadSuccess = (chatrooms: ChatroomWithInfo[]): ChatroomActions => {
+const loadSuccess = (chatrooms: core.ChatroomWithInfo[]): ChatroomActions => {
     return {
         type: LOAD_SUCCESS,
         chatrooms
     }
 };
 
-export const loadFail = (error: APIError): ChatroomActions => {
+const loadFail = (error: core.APIError): ChatroomActions => {
     return {
         type: LOAD_FAIL,
         error
     }
 };
 
-export const create$ = (name: db.chatroom.Schema['name']) => {
-    return (dispatch: ThunkDispatch<RootSchema, {}, any>, getState: () => RootSchema) => {
+const create$ = (name: db.chatroom.Schema['name']) => {
+    return (dispatch: ThunkDispatch<RootSchema, unknown, any>): Promise<void> => {
         dispatch(create());
 
         return APIService.createRoom(name)
@@ -138,70 +122,70 @@ export const create$ = (name: db.chatroom.Schema['name']) => {
                     dispatch(load$());
                     dispatch(push(`/chat/${res._id}`))
                 },
-                (err) => dispatch(createFail(err))
+                (err) => { dispatch(createFail(err)) }
             );
     };
 }
 
-export const create = (): ChatroomActions => {
+const create = (): ChatroomActions => {
     return {
         type: CREATE,
     }
 };
 
-export const createSuccess = (chatroom: db.chatroom.Schema): ChatroomActions => {
+const createSuccess = (chatroom: db.chatroom.Schema): ChatroomActions => {
     return {
         type: CREATE_SUCCESS,
         chatroom
     };
 };
 
-export const createFail = (error: APIError): ChatroomActions => {
+const createFail = (error: core.APIError): ChatroomActions => {
     return {
         type: CREATE_FAIL,
         error
     };
 };
 
-export const loadRecentMessages$ = (id: db.chatroom.Schema['_id']) => {
-    return (dispatch: Dispatch, getState: () => RootSchema) => {
+const loadRecentMessages$ = (id: db.chatroom.Schema['_id']) => {
+    return (dispatch: Dispatch): Promise<void> => {
         dispatch(loadRecentMessages(id));
 
         return APIService.getRecentMessagesForChatroom(id)
             .then(
                 (res) => {
-                    return dispatch(loadRecentMessagesSuccess(res));
+                    dispatch(loadRecentMessagesSuccess(res));
                 },
                 (err) => {
-                    return dispatch(loadRecentMessagesFail(err));
+                    dispatch(loadRecentMessagesFail(err));
                 }
             );
     };
 };
 
-export const loadRecentMessages = (id: db.chatroom.Schema['_id']): ChatroomActions => {
+const loadRecentMessages = (id: db.chatroom.Schema['_id']): ChatroomActions => {
     return {
         type: LOAD_RECENT_MESSAGES,
         id
     }
 };
 
-export const loadRecentMessagesSuccess = (messages: ChatroomMessage[]): ChatroomActions => {
+const loadRecentMessagesSuccess = (messages: core.ChatroomMessage[]): ChatroomActions => {
     return {
         type: LOAD_RECENT_MESSAGES_SUCCESS,
         messages
     }
 };
 
-export const loadRecentMessagesFail = (error: APIError): ChatroomActions => {
+const loadRecentMessagesFail = (error: core.APIError): ChatroomActions => {
     return {
         type: LOAD_RECENT_MESSAGES_FAIL,
         error
     }
 };
 
-export const sendMessage$ = (chatroom_sentto: db.chatroom.Schema['_id'], content: db.message.Schema['content']) => {
-    return (dispatch: ThunkDispatch<RootSchema, {}, any>, getState: () => RootSchema) => {
+const sendMessage$ = (chatroom_sentto: db.chatroom.Schema['_id'], content: db.message.Schema['content']) => {
+    return (dispatch: ThunkDispatch<RootSchema, unknown, any>): Promise<void> => {
         dispatch(sendMessage());
 
         return APIService.sendMessage(chatroom_sentto, content)
@@ -218,28 +202,41 @@ export const sendMessage$ = (chatroom_sentto: db.chatroom.Schema['_id'], content
     };
 };
 
-export const sendMessage = (): ChatroomActions => {
+const sendMessage = (): ChatroomActions => {
     return {
         type: SEND_MESSAGE
     }
 };
 
-export const sendMessageSuccess = (message: db.message.Schema): ChatroomActions => {
+const sendMessageSuccess = (message: db.message.Schema): ChatroomActions => {
     return {
         type: SEND_MESSAGE_SUCCESS,
         message
     }
 };
 
-export const sendMessageFail = (error: APIError): ChatroomActions => {
+const sendMessageFail = (error: core.APIError): ChatroomActions => {
     return {
         type: SEND_MESSAGE_FAIL,
         error
     }
 };
 
+export type ChatroomActions =
+    | Load
+    | LoadSuccess
+    | LoadFail
+    | Create
+    | CreateSuccess
+    | CreateFail
+    | LoadRecentMessages
+    | LoadRecentMessagesSuccess
+    | LoadRecentMessagesFail
+    | SendMessage
+    | SendMessageSuccess
+    | SendMessageFail;
 
-export default {
+export const chatroomActions = {
     load$,
     load,
     loadSuccess,
@@ -256,4 +253,4 @@ export default {
     sendMessage,
     sendMessageSuccess,
     sendMessageFail
-}
+};

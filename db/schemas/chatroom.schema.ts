@@ -1,10 +1,10 @@
-import * as mongoose from 'mongoose'
+import mongoose from 'mongoose'
 import * as user from "./user.schema";
 
 interface _Schema {
     name: string;
     user_createdby: user.Document['_id'];
-};
+}
 export interface Schema extends _Schema {
     _id?: string;
 }

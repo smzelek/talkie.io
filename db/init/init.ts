@@ -1,6 +1,6 @@
 import { connect } from "mongoose";
-import * as db from '../index';
 import { internet, name, company, random, lorem } from 'faker';
+import { db } from '..';
 
 const default_users: db.user.Schema[] = Array.from({ length: 10 }, () => {
     const firstname = name.firstName();

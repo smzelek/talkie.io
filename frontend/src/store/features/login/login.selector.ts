@@ -1,5 +1,5 @@
 import { createSelector } from "reselect";
-import { RootSchema } from "../../schemas";
+import { RootSchema } from "~frontend/store/schemas";
 
 const loginState = (state: RootSchema) => state.login;
 
@@ -9,7 +9,7 @@ const loggingIn = createSelector(loginState, (state) => state.loggingIn);
 const currentUser = createSelector(loginState, (state) => state.currentUser);
 const loggingOut = createSelector(loginState, (state) => state.loggingOut);
 
-export default {
+export const loginSelectors = {
     creatingUser,
     checkingLogin,
     loggingIn,

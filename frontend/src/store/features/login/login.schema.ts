@@ -1,5 +1,5 @@
-import { AsyncActionState } from "../../utils/async-action-state";
-import * as db from '../../../../../db';
+import { db } from '~db';
+import { AsyncActionState } from '~frontend/utils';
 
 export interface LoginSchema {
     currentUser?: db.user.Schema;
