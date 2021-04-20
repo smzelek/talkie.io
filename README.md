@@ -1,5 +1,7 @@
 # Talkie.io
 
+![''](./demo.png)
+
 ## Requirements
 Running the app requires `docker` and `docker-compose`.
 

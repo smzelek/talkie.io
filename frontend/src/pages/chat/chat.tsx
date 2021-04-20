@@ -20,7 +20,7 @@ class _ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteCom
     }
 
     componentDidMount() {
-        this.props.dispatch(actions.login.checkLogin$(() => ({ }), () => {
+        this.props.dispatch(actions.login.checkLogin$(() => ({}), () => {
             this.props.dispatch(push('/login'));
         }));
         this.props.dispatch(actions.chatroom.load$());
@@ -61,6 +61,7 @@ class _ChatPage extends React.Component<ChatProps & ThunkDispatchProp & RouteCom
                                 <Link to={`${this.props.match.path}/new`}>create new room</Link>
                             </div>
                             {this.props.chatrooms
+                                ?.slice()
                                 ?.sort((c1, c2) => this.sortChatrooms(c1, c2))
                                 ?.map(c => (
                                     <li key={c._id}>

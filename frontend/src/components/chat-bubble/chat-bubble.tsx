@@ -17,7 +17,7 @@ export class ChatBubble extends React.Component<ChatBubbleProps> {
     render(): JSX.Element {
         return (
             <article className={`chat-bubble ${this.props.appearContinued ? 'continued' : ''} ${this.props.sentByUser ? 'from-user' : ''}`}>
-                <h1 style={{ color: stringToColor(this.props.name) }} className="chat-bubble__author">{this.props.name}</h1>
+                <h1 style={{ color: stringToColor(this.props.name.charAt(0)) }} className="chat-bubble__author">{this.props.name}</h1>
                 <p className="chat-bubble__message">{this.props.content}</p>
             </article>
         );
